@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
     <div className={styles.header}>
       <div className={styles.headerWrapper}>
         {/* logo */}
-        <a href="#" className={styles.headerItem + ' ' + styles.logo}>
+        <a href="/" className={styles.headerItem + ' ' + styles.logo}>
             <img src={logo} alt="Logo" />
             React Camp
         </a>
@@ -23,15 +23,15 @@ export const Header: React.FC = () => {
         </span>
         {/* Sign up & Sign in */}
         <span className={styles.headerItem + ' ' + styles.user}>
-          <a href="#">Sign Up</a>
-          <a href="#">Sign In</a>
+          <Link to={"/signup"}>Sign Up</Link>
+          <Link to={"/signin"}>Sign In</Link>
         </span>
         {/* Cart */}
         <span className={styles.headerItem + ' ' + styles.cart}>
-          <Link to="#">
+          <Link to="/store">
             <BsShopWindow />
           </Link>
-          <Link to={"#"}>
+          <Link to="/cart">
             <BsCart />
           </Link>
         </span>
