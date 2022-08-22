@@ -12,7 +12,7 @@ export const Header: React.FC = () => {
         {/* logo */}
         <a href="/" className={styles.headerItem + ' ' + styles.logo}>
             <img src={logo} alt="Logo" />
-            {/* React Camp */}
+            React Camp
         </a>
         {/* Search Bar */}
         <span className={styles.headerItem + ' ' + styles.search}>
