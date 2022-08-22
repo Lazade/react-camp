@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { BsSearch, BsShopWindow, BsCart } from 'react-icons/bs';
 import styles from './Header.module.scss';
-import logo from '../../assets/images/logo.svg';
+import logo from '../../assets/images/logo.png';
 
 export const Header: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ export const Header: React.FC = () => {
         {/* logo */}
         <a href="/" className={styles.headerItem + ' ' + styles.logo}>
             <img src={logo} alt="Logo" />
-            React Camp
+            {/* React Camp */}
         </a>
         {/* Search Bar */}
         <span className={styles.headerItem + ' ' + styles.search}>

@@ -1,6 +1,9 @@
 import React from "react";
 import { Header, Footer, ProductRankingItem } from "../../components";
 import { Carousel, Container, Row, Col } from "react-bootstrap";
+import demo1 from '../../assets/images/demo-1.jpg';
+import demo2 from '../../assets/images/demo-2.jpg';
+import demo3 from '../../assets/images/demo-3.jpg';
 import styles from './Home.module.scss';
 
 export const Home: React.FC = () => {
@@ -14,7 +17,7 @@ export const Home: React.FC = () => {
             <Carousel.Item>
               <img
                 className="d-block w-100"
-                src="https://www.snowpeak.co.jp/assets/images/top/mv/topmv_lwt2022sado2nd_pc.jpg"
+                src={demo1}
                 alt="First slide"
               />
               <Carousel.Caption>
@@ -25,7 +28,7 @@ export const Home: React.FC = () => {
             <Carousel.Item>
               <img
                 className="d-block w-100"
-                src="https://www.snowpeak.co.jp/assets/images/top/mv/topmv_lwt2022sado2nd_pc.jpg"
+                src={demo2}
                 alt="First slide"
               />
               <Carousel.Caption>
@@ -36,7 +39,7 @@ export const Home: React.FC = () => {
             <Carousel.Item>
               <img
                 className="d-block w-100"
-                src="https://www.snowpeak.co.jp/assets/images/top/mv/topmv_lwt2022sado2nd_pc.jpg"
+                src={demo3}
                 alt="First slide"
               />
               <Carousel.Caption>
