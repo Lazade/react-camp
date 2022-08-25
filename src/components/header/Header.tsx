@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { BsSearch, BsShopWindow, BsCart } from 'react-icons/bs';
 import styles from './Header.module.scss';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo-bw.png';
 
 export const Header: React.FC = () => {
   return (

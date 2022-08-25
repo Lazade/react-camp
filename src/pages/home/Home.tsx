@@ -4,6 +4,7 @@ import { Carousel, Container, Row, Col } from "react-bootstrap";
 import demo1 from '../../assets/images/demo-1.jpg';
 import demo2 from '../../assets/images/demo-2.jpg';
 import demo3 from '../../assets/images/demo-3.jpg';
+import demo4 from '../../assets/images/medium.jpg';
 import styles from './Home.module.scss';
 
 export const Home: React.FC = () => {
@@ -13,7 +14,7 @@ export const Home: React.FC = () => {
       {/* Carousels */}
       <section className={styles.section}>
         <div className={styles.sectionWrapper}>
-          <Carousel>
+          <Carousel style={{height: '650px'}}>
             <Carousel.Item>
               <img
                 className="d-block w-100"
@@ -134,31 +135,31 @@ export const Home: React.FC = () => {
             <Row>
               <Col lg={6}>
                 <figure className={styles["image-wrapper"]}>
-                  <img width={630} height={635} src="https://cdn-yotpo-images-production.yotpo.com/instagram/57/17866477811550857/medium.jpg" alt="" />
+                  <img width={630} height={635} src={demo4} alt="" />
                 </figure>
               </Col>
               <Col lg={6}>
                 <Row>
                   <Col lg={6}>
                     <figure className={styles["image-wrapper"]}>
-                      <img width={315} height={315} src="https://cdn-yotpo-images-production.yotpo.com/instagram/57/17866477811550857/medium.jpg" alt="" />
+                      <img width={315} height={315} src={demo4} alt="" />
                     </figure>
                   </Col>
                   <Col lg={6}>
                     <figure className={styles["image-wrapper"]}>
-                      <img width={315} height={315} src="https://cdn-yotpo-images-production.yotpo.com/instagram/57/17866477811550857/medium.jpg" alt="" />
+                      <img width={315} height={315} src={demo4} alt="" />
                     </figure>
                   </Col>
                 </Row>
                 <Row>
                   <Col lg={6}>
                     <figure className={styles["image-wrapper"]}>
-                      <img width={315} height={315} src="https://cdn-yotpo-images-production.yotpo.com/instagram/57/17866477811550857/medium.jpg" alt="" />
+                      <img width={315} height={315} src={demo4} alt="" />
                     </figure>
                   </Col>
                   <Col lg={6}>
                     <figure className={styles["image-wrapper"]}>
-                      <img width={315} height={315} src="https://cdn-yotpo-images-production.yotpo.com/instagram/57/17866477811550857/medium.jpg" alt="" />
+                      <img width={315} height={315} src={demo4} alt="" />
                     </figure>
                   </Col>
                 </Row>
@@ -170,31 +171,31 @@ export const Home: React.FC = () => {
                 <Row>
                   <Col lg={6}>
                     <figure className={styles["image-wrapper"]}>
-                      <img width={315} height={315} src="https://cdn-yotpo-images-production.yotpo.com/instagram/57/17866477811550857/medium.jpg" alt="" />
+                      <img width={315} height={315} src={demo4} alt="" />
                     </figure>
                   </Col>
                   <Col lg={6}>
                     <figure className={styles["image-wrapper"]}>
-                      <img width={315} height={315} src="https://cdn-yotpo-images-production.yotpo.com/instagram/57/17866477811550857/medium.jpg" alt="" />
+                      <img width={315} height={315} src={demo4} alt="" />
                     </figure>
                   </Col>
                 </Row>
                 <Row>
                   <Col lg={6}>
                     <figure className={styles["image-wrapper"]}>
-                      <img width={315} height={315} src="https://cdn-yotpo-images-production.yotpo.com/instagram/57/17866477811550857/medium.jpg" alt="" />
+                      <img width={315} height={315} src={demo4} alt="" />
                     </figure>
                   </Col>
                   <Col lg={6}>
                     <figure className={styles["image-wrapper"]}>
-                      <img width={315} height={315} src="https://cdn-yotpo-images-production.yotpo.com/instagram/57/17866477811550857/medium.jpg" alt="" />
+                      <img width={315} height={315} src={demo4} alt="" />
                     </figure>
                   </Col>
                 </Row>
               </Col>
               <Col lg={6}>
                 <figure className={styles["image-wrapper"]}>
-                  <img width={630} height={635} src="https://cdn-yotpo-images-production.yotpo.com/instagram/57/17866477811550857/medium.jpg" alt="" />
+                  <img width={630} height={635} src={demo4} alt="" />
                 </figure>
               </Col>
             </Row>
