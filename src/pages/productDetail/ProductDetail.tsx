@@ -11,7 +11,7 @@ export const ProductDetail: React.FC = () => {
         <div>
           {/* Product Image */}
           <div>
-            Product Images
+            Product Images111
           </div>
           {/* Product Intro */}
           <div>
