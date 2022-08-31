@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
+// import { Link } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../redux/hooks";
+import { storeSlice, getCategoriesData } from "../../redux/store/index";
+import axios from "axios";
 import { Footer, Header } from "../../components";
 import { BsArrowRightShort } from 'react-icons/bs';
 import demo5 from '../../assets/images/demo-5.jpg';
 import styles from './Store.module.scss';
 
+interface CategoryData {
+  name: string,
+  id: string
+}
+
 export const Store: React.FC = () => {
+
+  const loading = useSelector(state => state.store.loading)
+  const error = useSelector(state => state.store.error);
+  const productsData = useSelector(state => state.store.productsData);
+  const categoriesData = useSelector<[any] | null>(state => state.store.categoriesData);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCategoriesData());
+  }, []);
+
   return(
     <>
       <Header />
@@ -18,11 +40,23 @@ export const Store: React.FC = () => {
                 <p className={styles["title-part-title"]}>Category</p>
               </div>
               <ul>
+                {/* <li><a href="#">テント <BsArrowRightShort /></a></li>
                 <li><a href="#">テント <BsArrowRightShort /></a></li>
                 <li><a href="#">テント <BsArrowRightShort /></a></li>
                 <li><a href="#">テント <BsArrowRightShort /></a></li>
-                <li><a href="#">テント <BsArrowRightShort /></a></li>
-                <li><a href="#">テント <BsArrowRightShort /></a></li>
+                <li><a href="#">テント <BsArrowRightShort /></a></li> */}
+                {
+                  // console.log(categoriesData)
+                  !categoriesData ?
+                  <div>Null</div> :
+                  categoriesData.map((category) => {
+                    console.log(category);
+                    return <li key={category.name}><a href="#">{category.name} <BsArrowRightShort /></a></li>
+                  })
+                  // loading ?
+                  // <div>loading</div> :
+                  // <div>done</div>
+                }
               </ul>
             </div>
             {/* in stock */}
