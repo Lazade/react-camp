@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
-// import { Link } from "react-router-dom";
-// import { useDispatch } from "react-redux";
 import { useSelector, useDispatch } from "../../redux/hooks";
-import { storeSlice, getCategoriesData } from "../../redux/store/index";
-import axios from "axios";
+import { 
+  storeSlice, 
+  getProductsAndCategoriesData, 
+  getProductsOfCurrentCategory 
+} from "../../redux/store/index";
+import { Spinner  } from 'react-bootstrap';
 import { Footer, Header } from "../../components";
 import { BsArrowRightShort } from 'react-icons/bs';
 import demo5 from '../../assets/images/demo-5.jpg';
@@ -14,22 +16,47 @@ interface CategoryData {
   id: string
 }
 
+interface productData {
+  id: string,
+  category: string,
+  name: string,
+  description: string,
+  thumbnail: string,
+  price: Number,
+  isOnSale: boolean,
+  isNewArrival: boolean,
+  isInStock: boolean,
+}
+
 export const Store: React.FC = () => {
 
   const loading = useSelector(state => state.store.loading)
   const error = useSelector(state => state.store.error);
-  const productsData = useSelector(state => state.store.productsData);
-  const categoriesData = useSelector<[any] | null>(state => state.store.categoriesData);
+  const currentCategory = useSelector(state => state.store.currentCategory);
+  const productsData = useSelector<null | productData[]>(state => state.store.productsData);
+  const categoriesData = useSelector<null | CategoryData[]>(state => state.store.categoriesData);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCategoriesData());
+    dispatch(getProductsAndCategoriesData());
   }, []);
+
+  const categoryClickAction = (cateid: string = "") => {
+    if (currentCategory === cateid) { return }
+    dispatch(storeSlice.actions.categoryActionHandler(cateid))
+    dispatch(getProductsOfCurrentCategory(cateid));
+  }
 
   return(
     <>
       <Header />
+      {
+        loading &&
+        <div className={styles["loading-view"]}>
+          <Spinner animation="border" />
+        </div>
+      }
       <section className={styles.store}>
         <div className={styles["store-wrapper"]}>
           {/* left */}
@@ -40,22 +67,16 @@ export const Store: React.FC = () => {
                 <p className={styles["title-part-title"]}>Category</p>
               </div>
               <ul>
-                {/* <li><a href="#">テント <BsArrowRightShort /></a></li>
-                <li><a href="#">テント <BsArrowRightShort /></a></li>
-                <li><a href="#">テント <BsArrowRightShort /></a></li>
-                <li><a href="#">テント <BsArrowRightShort /></a></li>
-                <li><a href="#">テント <BsArrowRightShort /></a></li> */}
+                <li className={currentCategory === "" ? styles["li-focused"] : ""} onClick={() => categoryClickAction("")}>
+                  <span>All <BsArrowRightShort /></span>
+                </li>
                 {
-                  // console.log(categoriesData)
-                  !categoriesData ?
-                  <div>Null</div> :
-                  categoriesData.map((category) => {
-                    console.log(category);
-                    return <li key={category.name}><a href="#">{category.name} <BsArrowRightShort /></a></li>
-                  })
-                  // loading ?
-                  // <div>loading</div> :
-                  // <div>done</div>
+                  categoriesData &&
+                  categoriesData.map((category) => (
+                    <li className={(currentCategory === category.id) ? styles["li-focused"] : ""} key={category.id} onClick={() => categoryClickAction(category.id)}>
+                      <span>{category.name} <BsArrowRightShort /></span>
+                    </li>
+                  ))
                 }
               </ul>
             </div>
@@ -107,82 +128,40 @@ export const Store: React.FC = () => {
           {/* right */}
           <div className={styles["store-rightside"]}>
             <div className={styles["product-list-wrapper"]}>
-              <div className={styles["product-item"]}>
-                <div className={styles["product-item-thumbnail"]}>
-                  {/* thumbnail */}
-                  <img src={demo5} alt="#" />
-                </div>
-                <div className={styles["product-item-info"]}>
-                  {/* product info */}
-                  <div className={styles["product-item-info-title"]}>
-                    <p>SP Dog Pullover Logo</p>
+              {
+                productsData &&
+                productsData.map((productData) => {
+                  let span;
+                  if (!productData.isInStock) {
+                    span = <span className={styles.soldOutSpan}>Sold Out</span>
+                  } else if (productData.isNewArrival) {
+                    span = <span className={styles.newArrivalSpan}>New Arrival</span>
+                  } else if (productData.isOnSale) {
+                    span = <span className={styles.discountSpan}>On Sale</span>
+                  } else {
+                    span = null
+                  }
+                  return (
+                  <div key={productData.id} className={styles["product-item"]}>
+                    {span}
+                    <div className={styles["product-item-thumbnail"]}>
+                      {/* thumbnail */}
+                      <img src={demo5} alt="#" />
+                    </div>
+                    <div className={styles["product-item-info"]}>
+                      {/* product info */}
+                      <div className={styles["product-item-info-title"]}>
+                        <p>{productData.name}</p>
+                      </div>
+                      <div className={styles["product-item-info-price"]}>
+                        <p>{`¥ ${productData.price}`} <span>(税込)</span></p>
+                      </div>
+                    </div>
+                    <a className={styles["product-item-link"]} href={`/product/${productData.id}`} target="_blank" rel="noreferrer"></a>
                   </div>
-                  <div className={styles["product-item-info-price"]}>
-                    <p>¥1,320 <span>(税込)</span></p>
-                  </div>
-                  <div>
-                    rating
-                  </div>
-                </div>
-              </div>
-              <div className={styles["product-item"]}>
-                <span className={styles.soldOutSpan}>Sold Out</span>
-                <div className={styles["product-item-thumbnail"]}>
-                  {/* thumbnail */}
-                  <img src={demo5} alt="#" />
-                </div>
-                <div className={styles["product-item-info"]}>
-                  {/* product info */}
-                  <div className={styles["product-item-info-title"]}>
-                    <p>SP Dog Pullover Logo</p>
-                  </div>
-                  <div className={styles["product-item-info-price"]}>
-                    <p>¥1,320 <span>(税込)</span></p>
-                  </div>
-                  <div>
-                    rating
-                  </div>
-                </div>
-                <a href="#"></a>
-              </div>
-              <div className={styles["product-item"]}>
-                <span className={styles.discountSpan}>15% Off</span>
-                <div className={styles["product-item-thumbnail"]}>
-                  {/* thumbnail */}
-                  <img src={demo5} alt="#" />
-                </div>
-                <div className={styles["product-item-info"]}>
-                  {/* product info */}
-                  <div className={styles["product-item-info-title"]}>
-                    <p>SP Dog Pullover Logo</p>
-                  </div>
-                  <div className={styles["product-item-info-price"]}>
-                    <p>¥1,320 <span>(税込)</span></p>
-                  </div>
-                  <div>
-                    rating
-                  </div>
-                </div>
-              </div>
-              <div className={styles["product-item"]}>
-                <span className={styles.newArrivalSpan}>New Arrival</span>
-                <div className={styles["product-item-thumbnail"]}>
-                  {/* thumbnail */}
-                  <img src={demo5} alt="#" />
-                </div>
-                <div className={styles["product-item-info"]}>
-                  {/* product info */}
-                  <div className={styles["product-item-info-title"]}>
-                    <p>SP Dog Pullover Logo</p>
-                  </div>
-                  <div className={styles["product-item-info-price"]}>
-                    <p>¥1,320 <span>(税込)</span></p>
-                  </div>
-                  <div>
-                    rating
-                  </div>
-                </div>
-              </div>
+                  )
+                })
+              }
             </div>
           </div>
         </div>
