@@ -1,6 +1,6 @@
 import React from "react";
 import { Footer, Header } from "../../components";
-import { BsArrowRightShort } from 'react-icons/bs'; 
+import { BsArrowRightShort } from 'react-icons/bs';
 import demo5 from '../../assets/images/demo-5.jpg';
 import styles from './Store.module.scss';
 
