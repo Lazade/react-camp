@@ -154,21 +154,17 @@ export const storeSlice = createSlice({
       const productsData = state.productsData
       if (isShowInStock === null) {
         state.filtedProductsData = productsData
-      } else if (isShowInStock) {
-        state.filtedProductsData = productsData!.filter((data) => {
-          return data.isInStock === true
-        })
       } else {
-        state.filtedProductsData = productsData!.filter((data) => {
-          return data.isInStock === false
-        })
+        if (productsData !== null) {
+          state.filtedProductsData = productsData.filter((data) => { return data.isInStock === isShowInStock })
+        }
       }
     },
     setPriceRangeHandler: (state, action) => {
       state.priceRange = action.payload
       const priceRange = state.priceRange
       const productsData = state.productsData
-      let min, max: number
+      let min: number, max: number
       if (priceRange === null) {
         state.filtedProductsData = productsData
       } else {
@@ -194,10 +190,9 @@ export const storeSlice = createSlice({
             max = 999999999
             break
         }
-        const filtedProductsData = productsData!.filter((data) => {
-          return (data.price >= min && data.price <= max)
-        })
-        state.filtedProductsData = filtedProductsData
+        if (productsData !== null) {
+          state.filtedProductsData = productsData.filter((data) => {  return (data.price >= min && data.price <= max) })
+        }
       }
     },
   }
