@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "../../redux/hooks";
 import { Header, Footer } from "../../components";
 import styles from './ProductDetail.module.scss';
 import PD1 from '../../assets/images/PD1.jpg';
