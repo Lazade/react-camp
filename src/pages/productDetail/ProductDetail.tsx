@@ -11,8 +11,8 @@ import PD6 from '../../assets/images/PD6.jpg';
 import PD7 from '../../assets/images/PD7.jpg';
 import PD8 from '../../assets/images/PD8.jpg';
 import CA1 from '../../assets/images/CA1.jpg';
-import { AiFillStar, AiOutlineShoppingCart, AiOutlineLike } from '../../../node_modules/react-icons/ai';
-import { BsPencilSquare, BsChevronRight, BsStarHalf, BsStarFill } from '../../../node_modules/react-icons/bs';
+import { AiOutlineShoppingCart, AiOutlineLike } from '../../../node_modules/react-icons/ai';
+import { BsPencilSquare, BsChevronRight, BsStarHalf, BsStarFill, BsFacebook, BsYoutube, BsInstagram, BsTwitter } from '../../../node_modules/react-icons/bs';
 
 
 export const ProductDetail: React.FC = () => {
@@ -189,8 +189,8 @@ export const ProductDetail: React.FC = () => {
                 </div>
               </div>
               <div className={styles.content}>
-                <p>軽さにビックリ</p>
-                <span>気になっていた商品の一部で購入してみました、軽さにビックリしました。</span>
+                <p>高品質なので価格がお安くなればぜひ揃えたい</p>
+                <span>スノーピークポイント失効間近だったのでステンレスシェラカップを購入してみました。100均のシェラカップでも使用上は問題ありませんが、やはりスノーピーク製は品質が高くて所有欲が満たされます。心地よい重量感があり、空の状態でも傾いたりせずしっかり置くことができます。価格が1,700円程度とややお高めなので星ひとつ減らしました。1,000円程度まで値段がさがれば巣のピークで揃えてもいいかなと思いました。今後のより一層の企業努力に期待しております。</span>
               </div>
               <div className={styles.contentLike}>
                 <span>このレビューは参考になりましたか？</span>
@@ -203,53 +203,60 @@ export const ProductDetail: React.FC = () => {
               <h2>Spec</h2>
               <p>チタンシェラカップの仕様</p>
             </div>
-          </div>
-          <div className={styles.specDetail}>
-            <div className={styles.row}>
-              <hr />
-            </div>
-            <ul>
+            <hr />
+            <ul className={styles.specDetail}>
               <li>
-                <div className={styles.specFuntion}>
+                <div className={styles.specName}>
                   <p>サイズ</p>
+                </div>
+                <div>
                   <p>φ120&times;45mm</p>
                 </div>
                 <hr />
               </li>
               <li>
-                <div className={styles.specFuntion}>
+                <div className={styles.specName}>
                   <p>重量</p>
+                </div>
+                <div>
                   <p>37g</p>
                 </div>
                 <hr />
               </li>
               <li>
-                <div className={styles.specFuntion}>
-                  <p>重量</p>
-                  <p>37g</p>
+                <div className={styles.specName}>
+                  <p>容量</p>
+                </div>
+                <div>
+                  <p>310ml</p>
                 </div>
                 <hr />
               </li>
               <li>
-                <div className={styles.specFuntion}>
+                <div className={styles.specName}>
                   <p>材料</p>
+                </div>
+                <div>
                   <p>チタニウム</p>
                 </div>
                 <hr />
               </li>
               <li>
-                <div className={styles.specFuntion}>
+                <div className={styles.specName}>
                   <p>特長</p>
+                </div>
+                <div>
                   <p>軽量なチタン製のシェラカップです。</p>
                 </div>
                 <hr />
               </li>
               <li>
-                <div className={styles.specFuntion}>
+                <div className={styles.specName}>
                   <p>仕様</p>
+                </div>
+                <div>
                   <p>
                     ● 材質 : チタニウム
-                    <br />
                     ● 容量 : 310ml
                   </p>
                 </div>
@@ -257,31 +264,29 @@ export const ProductDetail: React.FC = () => {
               </li>
             </ul>
           </div>
-          <div className={styles.snsLink}>
-            <ul>
-              <li>
-                <a href="#">
-                  <p></p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <p></p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <p></p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <p></p>
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
+        <div className={styles.snsLink}>
+            <span>
+              <a href="#">
+                <BsTwitter />
+              </a>
+            </span>
+            <span>
+              <a href="#">
+                <BsFacebook />
+              </a>
+            </span>
+            <span>
+              <a href="#">
+                <BsInstagram />
+              </a>
+            </span>
+            <span>
+              <a href="#">
+                <BsYoutube />
+              </a>
+            </span>
+          </div>
       </section>
       <Footer />
     </>
