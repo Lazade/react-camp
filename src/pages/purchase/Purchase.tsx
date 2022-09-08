@@ -4,6 +4,7 @@ import { Header, Footer } from "../../components";
 import { Card, Form, Button, Row, Col } from "react-bootstrap";
 import { purchaseSlice } from "../../redux/purchase";
 import styles from './Purchase.module.scss';
+import demo5 from '../../assets/images/demo-5.jpg';
 
 export const Purchase: React.FC = () => {
 
@@ -25,6 +26,53 @@ export const Purchase: React.FC = () => {
         <div className={styles.innerContent}>
           {/* left part */}
           <div className={styles.leftPart}>
+            <div className={styles.leftPartContainer}>
+            <div className={styles.section}>
+              <Card>
+                <Card.Header as="h5">
+                  Purchasing Items
+                </Card.Header>
+                <Card.Body>
+                  <div className={styles.purchasingItemsInner}>
+                    <div className={styles.purchasingItem}>
+                      <div className={styles.purchasingItemWrapper}>
+                        {/* image */}
+                        <div className={styles.itemImage}>
+                          <img src={demo5} alt="demo" />
+                        </div>
+                        <div className={styles.itemInfo}>
+                          <div className={styles.nameInfo}>チタンシェラカップ</div>
+                          <div className={styles.quanityInfo}>Quantity: <span className={styles.quanitySpan}>1</span></div>
+                          <div className={styles.priceInfo}>
+                            Price: 
+                            <span className={styles.priceSpan}>$2,990</span>
+                            <span className={styles.taxSpan}>(taxed)</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.purchasingItem}>
+                      <div className={styles.purchasingItemWrapper}>
+                        {/* image */}
+                        <div className={styles.itemImage}>
+                          <img src={demo5} alt="demo" />
+                        </div>
+                        <div className={styles.itemInfo}>
+                          <div className={styles.nameInfo}>チタンシェラカップ チタンシェラカップ チタンシェラカップ チタンシェラカップ</div>
+                          <div className={styles.quanityInfo}>Quantity: <span className={styles.quanitySpan}>1</span></div>
+                          <div className={styles.priceInfo}>
+                            Price: 
+                            <span className={styles.priceSpan}>$2,990</span>
+                            <span className={styles.taxSpan}>(taxed)</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Card.Body>
+              </Card>
+            </div>
+            <div className={styles.section}>
             <Card>
               <Card.Header as="h5">
                 Credit Card Info
@@ -76,6 +124,8 @@ export const Purchase: React.FC = () => {
                 </div>
               </Card.Body>
             </Card>
+            </div>
+            </div>
           </div>
           {/* right floating part */}
           <div className={styles.rightPart}>
