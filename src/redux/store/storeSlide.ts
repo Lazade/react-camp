@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { apiURL } from '../../config';
 
@@ -106,7 +106,7 @@ export const storeSlice = createSlice({
       state.error = null;
       state.productsData = action.payload;
     },
-    fetchError: (state, action: PayloadAction<string|null>) => {
+    fetchError: (state, action) => {
       state.loading = false
       state.error = action.payload
     },
@@ -121,7 +121,8 @@ export const storeSlice = createSlice({
         let countOfFrom10001To20000 = 0
         let countOfFrom20001To30000 = 0
         let countOfGreaterThan30000 = 0
-        productsData.map((data) => {
+        // productsData.map((data) => {
+        productsData.forEach((data) => {
           if (data.price <= 5000) {
             countOfLessThan5000 += 1
           } else if (data.price <= 10000) {

@@ -86,14 +86,32 @@
   &.cart {
     margin-left: 16px;
     a {    
-      width: 36px;
-      height: 36px;
-      border-radius: 100%;
+      width: 48px;
+      height: 48px;
+      // border-radius: 100%;
       font-size: 24px;
       color: #333;
-      text-align: center;
-      line-height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+  }
+}
+
+.cartButton {
+  position: relative;
+  .quantitySpan {
+    position: absolute;
+    font-size: 12px;
+    color: white;
+    background-color: #ff3434;
+    width: 16px;
+    height: 16px;
+    right: 2px;
+    top: 2px;
+    line-height: 16px;
+    text-align: center;
+    border-radius: 100%;
   }
 }
 
