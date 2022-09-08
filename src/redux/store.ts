@@ -1,6 +1,8 @@
 import { createSlice, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { storeSlice } from "./store/";
 import { purchaseSlice } from "./purchase";
+import { productSlice } from './product';
+import { cartSlice } from './cart';
 
 interface CommonState {
   hasScrollUp: boolean
@@ -23,7 +25,9 @@ export const commonSlice = createSlice({
 const rootReducer = combineReducers({
   common: commonSlice.reducer,
   store: storeSlice.reducer,
-  purchase: purchaseSlice.reducer
+  purchase: purchaseSlice.reducer,
+  product: productSlice.reducer,
+  cart: cartSlice.reducer,
 })
 
 const store = configureStore({

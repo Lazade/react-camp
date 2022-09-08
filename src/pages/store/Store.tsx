@@ -59,7 +59,7 @@ export const Store: React.FC = () => {
       <Header />
       {
         loading &&
-        <div className={styles["loading-view"]}>
+        <div className={styles.loadingView}>
           <Spinner animation="border" />
         </div>
       }
@@ -153,8 +153,8 @@ export const Store: React.FC = () => {
             </div>
           </div>
           {/* right */}
-          <div className={styles["store-rightside"]}>
-            <div className={styles["product-list-wrapper"]}>
+          <div className={styles.storeRightside}>
+            <div className={styles.productListWrapper}>
               {
                 filtedProductsData &&
                 filtedProductsData.map((productData) => {
@@ -169,22 +169,22 @@ export const Store: React.FC = () => {
                     span = null
                   }
                   return (
-                  <div key={productData.id} className={styles["product-item"]}>
+                  <div key={productData.id} className={styles.productItem}>
                     {span}
-                    <div className={styles["product-item-thumbnail"]}>
+                    <div className={styles.productItemThumbnail}>
                       {/* thumbnail */}
                       <img src={demo5} alt="#" />
                     </div>
-                    <div className={styles["product-item-info"]}>
+                    <div className={styles.productItemInfo}>
                       {/* product info */}
-                      <div className={styles["product-item-info-title"]}>
+                      <div className={styles.productItemInfoTitle}>
                         <p>{productData.name}</p>
                       </div>
-                      <div className={styles["product-item-info-price"]}>
+                      <div className={styles.productItemInfoPrice}>
                         <p>{`¥ ${productData.price}`} <span>(税込)</span></p>
                       </div>
                     </div>
-                    <a className={styles["product-item-link"]} href={`/product/${productData.id}`} target="_blank" rel="noreferrer"></a>
+                    <a className={styles.productItemLink} href={`/product/${productData.id}`} target="_blank" rel="noreferrer"></a>
                   </div>
                   )
                 })

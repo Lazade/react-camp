@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "../../redux/hooks";
+import { useParams, Link } from "react-router-dom";
+import { productSlice, getProduct } from "../../redux/product";
+import { cartSlice, CartItem } from "../../redux/cart";
 import { Header, Footer } from "../../components";
 import styles from './ProductDetail.module.scss';
 import PD1 from '../../assets/images/PD1.jpg';
@@ -10,11 +14,52 @@ import PD6 from '../../assets/images/PD6.jpg';
 import PD7 from '../../assets/images/PD7.jpg';
 import PD8 from '../../assets/images/PD8.jpg';
 import CA1 from '../../assets/images/CA1.jpg';
-import { AiOutlineShoppingCart, AiOutlineLike } from '../../../node_modules/react-icons/ai';
-import { BsPencilSquare, BsChevronRight, BsStarHalf, BsStarFill, BsFacebook, BsYoutube, BsInstagram, BsTwitter } from '../../../node_modules/react-icons/bs';
+import { AiOutlineShoppingCart, AiOutlineLike } from 'react-icons/ai'
+import { BsPencilSquare, BsChevronRight, BsStarHalf, BsStarFill, BsFacebook, BsYoutube, BsInstagram, BsTwitter } from 'react-icons/bs';
 
 
 export const ProductDetail: React.FC = () => {
+
+  const { id } = useParams();
+  const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const loading = useSelector(state => state.product.loading);
+  const error = useSelector(state => state.product.error);
+  const productData = useSelector(state => state.product.productData);
+  const categoryData = useSelector(state => state.product.categoryData);
+  const currentImage = useSelector(state => state.product.currentImage);
+  const displayImages = useSelector(state => state.product.displayImages);
+  const selectedQuantity = useSelector(state => state.product.selectedQuantity);
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (id !== undefined) {
+      dispatch(getProduct(id))
+    }
+    dispatch(productSlice.actions.setDisplayImages([PD1, PD2, PD3, PD4, PD5, PD6, PD7, PD8]))
+  }, [])
+
+  const addToCartAction = () => {
+    if (productData !== null) {
+      const id = productData.id
+      const quantity = selectedQuantity
+      const newCartItem: CartItem = {
+        productId: id,
+        quantity
+      }
+      dispatch(cartSlice.actions.handlerAddToCart(newCartItem))
+    }
+  }
+
+  const figureClickAction = (image: string) => {
+    dispatch(productSlice.actions.setCurrentImage(image))
+  }
+
+  const changeQuantity = (event: React.BaseSyntheticEvent) => {
+    const quantity = parseInt(event.target.value)
+    dispatch(productSlice.actions.selectedQuantityChange(quantity))
+  }
+
   return (
     <>
       <Header />
@@ -23,24 +68,24 @@ export const ProductDetail: React.FC = () => {
           <a className={styles.topLink} href="#">25,000円(税込)以上お買い上げでノベルティプレゼント!</a>
           <ul className={styles.pageNav}>
             <li>
-              <a href="#">React Camp homepage</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
               <span><BsChevronRight /></span>
             </li>
             <li>
-              <a href="">Outdoor gear</a>
+              <Link to="/store">{categoryData?.name}</Link>
             </li>
             <li>
               <span><BsChevronRight /></span>
             </li>
-            <li>チタンシェラカップ(M-777)</li>
+            <li>{productData?.name}</li>
           </ul>
         </div>
         {/* Cart wrapper */}
         <div className={styles.leftWrapper}>
           <h1 className={styles.productName}>
-            チタンシェラカップ
+            {productData?.name}
           </h1>
           <p className={styles.productID}>M-777</p>
           <div className={styles.toReview}>
@@ -54,16 +99,13 @@ export const ProductDetail: React.FC = () => {
             </a>
           </div>
           <div className={styles.productPrice}>
-            <p>
-              ¥2,090
-              <small>(税込)</small>
-            </p>
+            <p>{`¥ ${productData?.price}`}<small>(税込)</small></p>
           </div>
           <div className={styles.productCartQty}>
             <span>数量</span>
             <div className={styles.selectBox}>
-              <select name="qty">
-                <option value="1">1</option>
+              <select name="qty" value={selectedQuantity} onChange={(e) => changeQuantity(e)}>
+                {/* <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
@@ -72,12 +114,26 @@ export const ProductDetail: React.FC = () => {
                 <option value="7">7</option>
                 <option value="8">8</option>
                 <option value="9">9</option>
-                <option value="10">10</option>
+                <option value="10">10</option> */}
+                {
+                  options.map((num) => {
+                    return (
+                      <option 
+                        key={num} 
+                        value={num}
+                      >
+                        {num}
+                      </option>
+                    )
+                  })
+                }
               </select>
             </div>
-            <p>在庫あり</p>
+            <p>{productData?.isInStock ? '在庫あり' : '在庫なし'}</p>
             <div className={styles.addCart}>
-              <button>
+              <button
+                onClick={addToCartAction}
+              >
                 <span className={styles.cartIcon}><AiOutlineShoppingCart /></span>
                 <span>カートに追加</span>
               </button>
@@ -97,46 +153,25 @@ export const ProductDetail: React.FC = () => {
           <div className={styles.mainFigure}>
             <figure>
               <div>
-                <img width={750} src={PD1} />
+                <img width={750} src={currentImage === null ? PD1 : currentImage} />
               </div>
             </figure>
           </div>
           <div className={styles.minorFigures}>
-            <figure>
-              <div>
-                <img width={124} height={93} src={PD2} />
-              </div>
-            </figure>
-            <figure>
-              <div>
-                <img width={124} height={93} src={PD3} />
-              </div>
-            </figure>
-            <figure>
-              <div>
-                <img width={124} height={93} src={PD4} />
-              </div>
-            </figure>
-            <figure>
-              <div>
-                <img width={124} height={93} src={PD5} />
-              </div>
-            </figure>
-            <figure>
-              <div>
-                <img width={124} height={93} src={PD6} />
-              </div>
-            </figure>
-            <figure>
-              <div>
-                <img width={124} height={93} src={PD7} />
-              </div>
-            </figure>
-            <figure>
-              <div>
-                <img width={124} height={93} src={PD8} />
-              </div>
-            </figure>
+            {
+              displayImages.map((image, index) => {
+                return (
+                  <figure 
+                    key={index}
+                    onClick={() => figureClickAction(image)}
+                  >
+                    <div>
+                      <img width={124} height={93} src={image} />
+                    </div>
+                  </figure>
+                )
+              })
+            }
           </div>
           <div className={styles.infoBox}>
             <h2>さまざまな使い方ができるシェラカップ。チタン製で超軽量です。</h2>

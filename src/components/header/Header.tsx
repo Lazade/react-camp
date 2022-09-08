@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "../../redux/hooks";
 import { commonSlice } from "../../redux/store";
+import { cartSlice } from "../../redux/cart";
 import { Form } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { BsSearch, BsShopWindow, BsCart, BsArrowUp } from 'react-icons/bs';
@@ -10,6 +11,7 @@ import logo from '../../assets/images/logo-bw.png';
 export const Header: React.FC = () => {
 
   const hasScrollUp = useSelector(state => state.common.hasScrollUp);
+  const cartItems = useSelector(state => state.cart.cartItems);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -64,7 +66,11 @@ export const Header: React.FC = () => {
             <Link to="/store">
               <BsShopWindow />
             </Link>
-            <Link to="/cart">
+            <Link className={styles.cartButton} to="/cart">
+              {
+                (cartItems.length > 0)&&
+                <span className={styles.quantitySpan}>{cartItems.length}</span>
+              }
               <BsCart />
             </Link>
           </span>
