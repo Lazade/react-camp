@@ -205,19 +205,6 @@
     width: 900px;
     margin: 100px auto;
 
-    .titleBlock {
-        height: 100px;
-
-        h2 {
-            font-size: 28px;
-        }
-
-        p {
-            font-size: 20px;
-            font-weight: bold;
-        }
-    }
-
     .summaryBlock {
         height: 200px;
 
@@ -267,6 +254,20 @@
                 border: 1px solid black;
             }
         }
+    }
+}
+
+.titleBlock,
+.specTitle {
+    height: 100px;
+
+    h2 {
+        font-size: 28px;
+    }
+
+    p {
+        font-size: 20px;
+        font-weight: bold;
     }
 }
 
@@ -328,14 +329,52 @@
         }
     }
 
-    .contentLike{
+    .contentLike {
         float: right;
         font-size: 14px;
-        color: darkgrey;
-        margin-top: 10px;
+        color: rgb(117, 117, 117);
+        margin-top: 15px;
     }
 }
 
-.specBox{
-    
+.specBox {
+    width: 900px;
+    margin: auto;
+
+    .specDetail {
+        padding-left: 0;
+        font-size: 14px;
+
+        li {
+            div {
+                display: inline-block;
+            }
+
+            p {
+                margin-bottom: 0px;
+            }
+
+            .specName {
+                width: 50px;
+                margin-right: 250px;
+                font-weight: bold;
+            }
+
+        }
+
+    }
+}
+
+.snsLink {
+    margin: 100px auto 50px auto;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    span{
+            font-size: 26px;
+            margin: auto 10px;
+            a{
+                color: darkgray;
+            }
+    }
 }
