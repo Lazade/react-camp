@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "../../redux/hooks";
 import { commonSlice } from "../../redux/store";
-import { cartSlice } from "../../redux/cart";
+// import { cartSlice } from "../../redux/cart";
 import { Form } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { BsSearch, BsShopWindow, BsCart, BsArrowUp } from 'react-icons/bs';

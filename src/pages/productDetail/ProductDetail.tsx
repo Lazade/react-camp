@@ -21,9 +21,8 @@ import { BsPencilSquare, BsChevronRight, BsStarHalf, BsStarFill, BsFacebook, BsY
 export const ProductDetail: React.FC = () => {
 
   const { id } = useParams();
-  const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  const loading = useSelector(state => state.product.loading);
-  const error = useSelector(state => state.product.error);
+  // const loading = useSelector(state => state.product.loading);
+  // const error = useSelector(state => state.product.error);
   const productData = useSelector(state => state.product.productData);
   const categoryData = useSelector(state => state.product.categoryData);
   const currentImage = useSelector(state => state.product.currentImage);
@@ -41,11 +40,11 @@ export const ProductDetail: React.FC = () => {
 
   const addToCartAction = () => {
     if (productData !== null) {
-      const id = productData.id
       const quantity = selectedQuantity
       const newCartItem: CartItem = {
-        productId: id,
-        quantity
+        product: productData,
+        quantity,
+        isChecked: false,
       }
       dispatch(cartSlice.actions.handlerAddToCart(newCartItem))
     }
@@ -105,28 +104,16 @@ export const ProductDetail: React.FC = () => {
             <span>数量</span>
             <div className={styles.selectBox}>
               <select name="qty" value={selectedQuantity} onChange={(e) => changeQuantity(e)}>
-                {/* <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option> */}
-                {
-                  options.map((num) => {
-                    return (
-                      <option 
-                        key={num} 
-                        value={num}
-                      >
-                        {num}
-                      </option>
-                    )
-                  })
-                }
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+                <option value={6}>6</option>
+                <option value={7}>7</option>
+                <option value={8}>8</option>
+                <option value={9}>9</option>
+                <option value={10}>10</option>
               </select>
             </div>
             <p>{productData?.isInStock ? '在庫あり' : '在庫なし'}</p>
