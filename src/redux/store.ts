@@ -3,9 +3,17 @@ import { storeSlice } from "./store/";
 import { purchaseSlice } from "./purchase";
 import { productSlice } from './product';
 import { cartSlice } from './cart';
-
+import { persistReducer, persistStore } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+ 
 interface CommonState {
   hasScrollUp: boolean
+}
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ["cart"]
 }
 
 const initialState: CommonState = {
@@ -30,12 +38,16 @@ const rootReducer = combineReducers({
   cart: cartSlice.reducer,
 })
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
   devTools: true,
 });
+
+const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 
-export default store;
+export default { store, persistor };
