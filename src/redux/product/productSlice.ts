@@ -26,15 +26,8 @@ const initialState : ProductState = {
 export const getProduct = createAsyncThunk(
   'product/getProduct',
   async (id: string, thunkAPI) => {
-    thunkAPI.dispatch(productSlice.actions.fecthStart())
-    try {
-      const { data } = await axios.get(`${apiURL}/product/${id}`)
-      thunkAPI.dispatch(productSlice.actions.fetchSuccess(data))
-    } catch (error) {
-      if (error instanceof Error) {
-        thunkAPI.dispatch(productSlice.actions.fetchError(error.message))
-      }
-    }
+    const { data } = await axios.get(`${apiURL}/product/${id}`)
+    return data
   }
 )
 
@@ -42,21 +35,6 @@ export const productSlice = createSlice({
   name: 'Product',
   initialState,
   reducers: {
-    fecthStart: (state) => {
-      state.loading = true
-      state.currentImage = null
-    },
-    fetchError: (state, action) => {
-      state.loading = false
-      state.error = action.payload
-    },
-    fetchSuccess: (state, action) => {
-      const { productData, categoryData } = action.payload
-      state.loading = false
-      state.error = null
-      state.productData = productData
-      state.categoryData = categoryData
-    },
     setCurrentImage: (state, action) => {
       state.currentImage = action.payload
     },
@@ -71,6 +49,20 @@ export const productSlice = createSlice({
     },
   },
   extraReducers: {
-    // pending: ()
+    [getProduct.pending.type]: (state) => {
+      state.loading = true
+      state.currentImage = null
+    },
+    [getProduct.fulfilled.type]: (state, action) => {
+      const { productData, categoryData } = action.payload
+      state.loading = false
+      state.error = null
+      state.productData = productData
+      state.categoryData = categoryData
+    },
+    [getProduct.rejected.type]: (state, action) => {
+      state.loading = false
+      state.error = action.payload
+    }
   }
 })

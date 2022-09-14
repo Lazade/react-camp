@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductData } from "../store/";
+import axios from "axios";
+import { apiURL } from "../../config";
 
 export interface CartItem {
   // productId: string,
@@ -13,14 +15,37 @@ interface CartState {
   isAllChecked: boolean,
   totalPrice: number,
   quantity: number,
+  loading: boolean,
+  error: string | null,
+  continueActionLoading: boolean,
 }
 
 const initialState: CartState = {
   cartItems: [],
   isAllChecked: false,
   totalPrice: 0,
-  quantity: 0
+  quantity: 0,
+  loading: true,
+  error: null,
+  continueActionLoading: false
 }
+
+export const handleContinueAction = createAsyncThunk(
+  'cart/handleContinueAction',
+  async (cartItems: CartItem[], thunkAPI) => {
+    const checkedCartItems = cartItems.filter((item) => item.isChecked)
+    const purchasingItems = checkedCartItems.map((item) => { return {productId: item.product.id, quantity: item.quantity, price: (item.quantity * item.product.price.valueOf())} })
+    thunkAPI.dispatch(cartSlice.actions.fetchContinueStart())
+    try {
+      const res = axios.post(`${apiURL}/order`, purchasingItems);
+      thunkAPI.dispatch(cartSlice.actions.fetchContinueSuccess(res));
+    } catch (error) {
+      if (error instanceof Error) {
+        thunkAPI.dispatch(cartSlice.actions.fetchContinueError(error.message));
+      }
+    }
+  } 
+)
 
 export const cartSlice = createSlice({
   name: 'Cart',
@@ -88,6 +113,18 @@ export const cartSlice = createSlice({
           }
         }
       })
+    },
+    fetchContinueStart: (state) => {
+      state.continueActionLoading = true;
+      state.error = null;
+    },
+    fetchContinueSuccess: (state, action) => {
+      state.continueActionLoading = false;
+      state.error = null;
+    },
+    fetchContinueError: (state, action: PayloadAction<string>) => {
+      state.continueActionLoading = false;
+      state.error = action.payload;
     }
   }
 })

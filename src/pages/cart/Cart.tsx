@@ -5,7 +5,8 @@ import { GrFormSubtract, GrFormAdd } from 'react-icons/gr'
 import styles from './Cart.module.scss';
 import demo from '../../assets/images/demo-5.jpg';
 import { useSelector, useDispatch } from "../../redux/hooks";
-import { cartSlice } from "../../redux/cart";
+import { cartSlice, handleContinueAction } from "../../redux/cart";
+import { useNavigate } from "react-router-dom";
 
 export const Cart: React.FC = () => {
 
@@ -13,12 +14,14 @@ export const Cart: React.FC = () => {
   const isAllChecked = useSelector(state => state.cart.isAllChecked);
   const quantity = useSelector(state => state.cart.quantity);
   const totalPrice = useSelector(state => state.cart.totalPrice);
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(cartSlice.actions.updateState());
   }, []);
 
-  const dispatch = useDispatch();
 
   const selectAllButtonAction = () => {
     dispatch(cartSlice.actions.handleSelectAllButtonAction(!isAllChecked))
@@ -48,7 +51,9 @@ export const Cart: React.FC = () => {
 
   const continueButtonAction = () => {
     if (quantity === 0) { return }
-    console.log()
+    // console.log()
+    dispatch(handleContinueAction(cartItems));
+    navigate('/placeOrder');
   }
 
   return (
@@ -157,7 +162,7 @@ export const Cart: React.FC = () => {
                     </div>
                   </Card.Body>
                   <Card.Footer>
-                    <button className={styles.checkButton}>Continue</button>
+                    <button className={(quantity > 0) ? styles.checkButton : styles.checkButton + ' ' + styles.disabled}>Continue</button>
                   </Card.Footer>
                 </Card>
               </div>

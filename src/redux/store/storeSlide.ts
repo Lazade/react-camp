@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { apiURL } from '../../config';
 
@@ -55,93 +55,23 @@ const initialState : StoreState = {
 export const getProductsAndCategoriesData = createAsyncThunk(
   'store/getProductsAndCategoriesData',
   async (_, thunkAPI) => {
-    thunkAPI.dispatch(storeSlice.actions.fetchStart());
-    try {
-      const { data } = await axios.get(`${apiURL}/products-and-categories`);
-      thunkAPI.dispatch(storeSlice.actions.fetchSuccess(data));
-      thunkAPI.dispatch(storeSlice.actions.initialData());
-    } catch (error) {
-      if (error instanceof Error) {
-        thunkAPI.dispatch(storeSlice.actions.fetchError(error.message));
-      }
-    }
+    const { data } = await axios.get(`${apiURL}/products-and-categories`);
+    return data;
   }
 )
 
 export const getProductsOfCurrentCategory = createAsyncThunk(
   'store/getProductsOfCurrentCategory',
   async (cateid: string, thunkAPI) => {
-    thunkAPI.dispatch(storeSlice.actions.fetchStart());
-    try {
-      const { data } = await axios.get(`${apiURL}/products/${cateid}`)
-      // console.log(data.data)
-      thunkAPI.dispatch(storeSlice.actions.fetchCategoryProductsSuccess(data.data));
-      thunkAPI.dispatch(storeSlice.actions.initialData());
-    } catch (error) {
-      if (error instanceof Error) {
-        thunkAPI.dispatch(storeSlice.actions.fetchError(error.message));
-      }
-    }
+    const { data } = await axios.get(`${apiURL}/products/${cateid}`);
+    return data.data;
   }
 )
-
-// const initialData = (state: )
 
 export const storeSlice = createSlice({
   name: 'Store',
   initialState,
   reducers: {
-    fetchStart: (state) => {
-      state.loading = true
-    },
-    fetchSuccess: (state, action) => {
-      state.loading = false
-      state.error = null
-      const { products, categories } = action.payload;
-      state.categoriesData = categories;
-      state.productsData = products;
-    },
-    fetchCategoryProductsSuccess: (state, action) => {
-      state.loading = false;
-      state.error = null;
-      state.productsData = action.payload;
-    },
-    fetchError: (state, action) => {
-      state.loading = false
-      state.error = action.payload
-    },
-    initialData: (state) => {
-      if (state.productsData !== null) {
-        const productsData = state.productsData
-        state.filtedProductsData = productsData
-        state.priceRange = null
-        state.isShowInStock = null
-        let countOfLessThan5000 = 0
-        let countOfFrom5000To10000 = 0
-        let countOfFrom10001To20000 = 0
-        let countOfFrom20001To30000 = 0
-        let countOfGreaterThan30000 = 0
-        // productsData.map((data) => {
-        productsData.forEach((data) => {
-          if (data.price <= 5000) {
-            countOfLessThan5000 += 1
-          } else if (data.price <= 10000) {
-            countOfFrom5000To10000 += 1
-          } else if (data.price <= 20000) {
-            countOfFrom10001To20000 += 1
-          } else if (data.price <= 30000) {
-            countOfFrom20001To30000 += 1
-          } else {
-            countOfGreaterThan30000 += 1
-          }
-        })
-        state.countOfLessThan5000 = countOfLessThan5000
-        state.countOfFrom5000To10000 = countOfFrom5000To10000
-        state.countOfFrom10001To20000 = countOfFrom10001To20000
-        state.countOfFrom20001To30000 = countOfFrom20001To30000
-        state.countOfGreaterThan30000 = countOfGreaterThan30000
-      }
-    },
     categoryActionHandler: (state, action) => {
       if (action.payload === "") {
         state.currentCategory = ""
@@ -149,12 +79,12 @@ export const storeSlice = createSlice({
         state.currentCategory = action.payload
       }
     },
-    setIsShowInStock: (state, action) => {
+    setIsShowInStock: (state, action: PayloadAction<boolean | null>) => {
+      const isShowInStock = action.payload
       state.isShowInStock = action.payload
-      const isShowInStock = state.isShowInStock
       const productsData = state.productsData
       if (isShowInStock === null) {
-        state.filtedProductsData = productsData
+        state.filtedProductsData = state.productsData
       } else {
         if (productsData !== null) {
           state.filtedProductsData = productsData.filter((data) => { return data.isInStock === isShowInStock })
@@ -196,5 +126,50 @@ export const storeSlice = createSlice({
         }
       }
     },
+  },
+  extraReducers: {
+    [getProductsAndCategoriesData.pending.type]: (state) => {
+      state.loading = true
+    },
+    [getProductsAndCategoriesData.rejected.type]: (state, action) => {
+      state.loading = false
+      state.error = action.payload
+    },
+    [getProductsAndCategoriesData.fulfilled.type]: (state, action: PayloadAction<{products: ProductData[], categories: CategoryData[]}>) => {
+      state.loading = false
+      state.error = null
+      const { products, categories } = action.payload;
+      state.categoriesData = categories;
+      state.productsData = products;
+      state.filtedProductsData = products;
+      state.priceRange = null
+      state.isShowInStock = null
+      state.countOfLessThan5000 = products.filter((product) => { return product.price <= 5000}).length
+      state.countOfFrom5000To10000 = products.filter((product) => { return (product.price > 5000 && product.price <= 10000) }).length
+      state.countOfFrom10001To20000 = products.filter((product) => { return (product.price > 10000 && product.price <= 20000) }).length
+      state.countOfFrom20001To30000 = products.filter((product) => { return (product.price > 20000 && product.price <= 30000) }).length
+      state.countOfGreaterThan30000 = products.filter((product) => { return product.price > 30000 }).length
+    },
+    [getProductsOfCurrentCategory.pending.type]: (state) => {
+      state.loading = true
+    },
+    [getProductsOfCurrentCategory.rejected.type]: (state, action) => {
+      state.loading = false
+      state.error = action.payload
+    },
+    [getProductsOfCurrentCategory.fulfilled.type]: (state, action: PayloadAction<ProductData[]>) => {
+      state.loading = false;
+      state.error = null;
+      state.productsData = action.payload;
+      const products = action.payload;
+      state.filtedProductsData = products;
+      state.priceRange = null
+      state.isShowInStock = null
+      state.countOfLessThan5000 = products.filter((product) => { return product.price <= 5000}).length
+      state.countOfFrom5000To10000 = products.filter((product) => { return (product.price > 5000 && product.price <= 10000) }).length
+      state.countOfFrom10001To20000 = products.filter((product) => { return (product.price > 10000 && product.price <= 20000) }).length
+      state.countOfFrom20001To30000 = products.filter((product) => { return (product.price > 20000 && product.price <= 30000) }).length
+      state.countOfGreaterThan30000 = products.filter((product) => { return product.price > 30000 }).length
+    }
   }
 });
