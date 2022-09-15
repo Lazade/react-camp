@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductData } from "../store/";
 import axios from "axios";
 import { apiURL } from "../../config";
+import { redirect } from "react-router-dom";
 
 export interface CartItem {
   // productId: string,
@@ -30,20 +31,15 @@ const initialState: CartState = {
   continueActionLoading: false
 }
 
-export const handleContinueAction = createAsyncThunk(
-  'cart/handleContinueAction',
+export const checkoutAction = createAsyncThunk(
+  'cart/checkoutAction',
   async (cartItems: CartItem[], thunkAPI) => {
-    const checkedCartItems = cartItems.filter((item) => item.isChecked)
-    const purchasingItems = checkedCartItems.map((item) => { return {productId: item.product.id, quantity: item.quantity, price: (item.quantity * item.product.price.valueOf())} })
-    thunkAPI.dispatch(cartSlice.actions.fetchContinueStart())
-    try {
-      const res = axios.post(`${apiURL}/order`, purchasingItems);
-      thunkAPI.dispatch(cartSlice.actions.fetchContinueSuccess(res));
-    } catch (error) {
-      if (error instanceof Error) {
-        thunkAPI.dispatch(cartSlice.actions.fetchContinueError(error.message));
-      }
-    }
+    const purchasingItems = cartItems.filter((item) => item.isChecked)
+                                      .map((item) => { return {
+                                        productId: item.product.id, quantity: item.quantity, price: (item.quantity * item.product.price.valueOf())
+                                      }})
+    const { data } = await axios.post(`${apiURL}/order`, { orderItems: purchasingItems, userId: '630c1191e9ff85c27667201f' });
+    return data;
   } 
 )
 
@@ -55,7 +51,6 @@ export const cartSlice = createSlice({
       const cartItems = state.cartItems;
       const allQuantity = cartItems.length;
       const checkedCartItems = cartItems.filter((item) => { return item.isChecked })
-      // const quantity = checkedCartItems.length
       state.totalPrice = checkedCartItems.reduce((previous, current) => previous + (current.quantity * current.product.price.valueOf()) , 0);
       state.quantity = checkedCartItems.reduce((pre, cur) => pre + cur.quantity, 0);
       state.isAllChecked = allQuantity === checkedCartItems.length
@@ -114,17 +109,21 @@ export const cartSlice = createSlice({
         }
       })
     },
-    fetchContinueStart: (state) => {
+  },
+  extraReducers: {
+    [checkoutAction.pending.type]: (state) => {
       state.continueActionLoading = true;
       state.error = null;
     },
-    fetchContinueSuccess: (state, action) => {
-      state.continueActionLoading = false;
-      state.error = null;
-    },
-    fetchContinueError: (state, action: PayloadAction<string>) => {
+    [checkoutAction.rejected.type]: (state, action: PayloadAction<string>) => {
       state.continueActionLoading = false;
       state.error = action.payload;
+    },
+    [checkoutAction.fulfilled.type]: (state, action) => {
+      state.continueActionLoading = false
+      const { orderId } = action.payload;
+      console.log(orderId);
+      redirect(`placeOrder/${orderId}`);
     }
   }
 })

@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "../../redux/hooks";
+import { useLocation } from 'react-router-dom';
 import { Header, Footer } from "../../components";
 import { Card, Form, Button, Row, Col } from "react-bootstrap";
-import { purchaseSlice } from "../../redux/purchase";
+import { purchaseSlice, getOrder } from "../../redux/purchase";
 import styles from './Purchase.module.scss';
 import demo5 from '../../assets/images/demo-5.jpg';
 
@@ -10,6 +11,9 @@ export const Purchase: React.FC = () => {
 
   const isScroll = useSelector((state => state.purchase.isScroll));
   const hasSubmit = useSelector((state => state.purchase.hasSubmit));
+  const currentOrder = useSelector((state => state.purchase.currentOrder))
+  
+  const location = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,6 +21,12 @@ export const Purchase: React.FC = () => {
       dispatch(purchaseSlice.actions.updateIsScroll(window.scrollY > 100));
     })
   }, [])
+
+  useEffect(() => {
+    
+    // dispatch(getOrder(currentOrderId))
+    console.log(location);
+  }, [location])
 
   return (
     <>
@@ -34,40 +44,30 @@ export const Purchase: React.FC = () => {
                 </Card.Header>
                 <Card.Body>
                   <div className={styles.purchasingItemsInner}>
-                    <div className={styles.purchasingItem}>
-                      <div className={styles.purchasingItemWrapper}>
-                        {/* image */}
-                        <div className={styles.itemImage}>
-                          <img src={demo5} alt="demo" />
-                        </div>
-                        <div className={styles.itemInfo}>
-                          <div className={styles.nameInfo}>チタンシェラカップ</div>
-                          <div className={styles.quanityInfo}>Quantity: <span className={styles.quanitySpan}>1</span></div>
-                          <div className={styles.priceInfo}>
-                            Price: 
-                            <span className={styles.priceSpan}>$2,990</span>
-                            <span className={styles.taxSpan}>(taxed)</span>
+                    {
+                      currentOrder &&
+                      currentOrder.orderItems.map((item) => {
+                        return (
+                          <div className={styles.purchasingItem}>
+                            <div className={styles.purchasingItemWrapper}>
+                              {/* image */}
+                              <div className={styles.itemImage}>
+                                <img src={demo5} alt="demo" />
+                              </div>
+                              <div className={styles.itemInfo}>
+                                <div className={styles.nameInfo}>{item.name}</div>
+                                <div className={styles.quanityInfo}>Quantity: <span className={styles.quanitySpan}>{item.quantity}</span></div>
+                                <div className={styles.priceInfo}>
+                                  Price: 
+                                  <span className={styles.priceSpan}>$ {item.cost}</span>
+                                  <span className={styles.taxSpan}>(taxed)</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.purchasingItem}>
-                      <div className={styles.purchasingItemWrapper}>
-                        {/* image */}
-                        <div className={styles.itemImage}>
-                          <img src={demo5} alt="demo" />
-                        </div>
-                        <div className={styles.itemInfo}>
-                          <div className={styles.nameInfo}>チタンシェラカップ チタンシェラカップ チタンシェラカップ チタンシェラカップ</div>
-                          <div className={styles.quanityInfo}>Quantity: <span className={styles.quanitySpan}>1</span></div>
-                          <div className={styles.priceInfo}>
-                            Price: 
-                            <span className={styles.priceSpan}>$2,990</span>
-                            <span className={styles.taxSpan}>(taxed)</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                        )
+                      })
+                    }
                   </div>
                 </Card.Body>
               </Card>
@@ -140,11 +140,11 @@ export const Purchase: React.FC = () => {
                     <tbody>
                       <tr className={styles.orderSummeryNormalRow}>
                         <td>Counts</td>
-                        <td>2</td>
+                        <td>{currentOrder&& currentOrder.totalQuantity}</td>
                       </tr>
                       <tr className={styles.orderSummeryNormalRow}>
                         <td>Price</td>
-                        <td>$ 1,182</td>
+                        <td>$ {currentOrder&& currentOrder.costPrice}</td>
                       </tr>
                       <tr className={styles.orderSummeryNormalRow}>
                         <td>Delivery fee</td>
@@ -156,7 +156,7 @@ export const Purchase: React.FC = () => {
                       </tr>
                       <tr className={styles.orderSummeryTotalRow}>
                         <td>Total</td>
-                        <td>$ 1,182</td>
+                        <td>$ {currentOrder&& currentOrder.costPrice}</td>
                       </tr>
                     </tbody>
                   </table>
