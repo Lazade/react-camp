@@ -20,7 +20,7 @@ function App() {
         {/* localhost:port/cart/ */}
         <Route path='cart' element={<Cart />}></Route>
         {/* localhost:port/purchase/ */}
-        <Route path='placeOrder/:orderId' element={<Purchase />}></Route>
+        <Route path='order/:orderId' element={<Purchase />}></Route>
         {/* localhost:port/signup/ */}
         <Route path='signup' element={<SignIn />}></Route>
         {/* localhost:port/signin/ */}

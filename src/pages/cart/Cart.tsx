@@ -6,7 +6,9 @@ import styles from './Cart.module.scss';
 import demo from '../../assets/images/demo-5.jpg';
 import { useSelector, useDispatch } from "../../redux/hooks";
 import { cartSlice, checkoutAction } from "../../redux/cart";
-// import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { apiURL } from "../../config";
 
 export const Cart: React.FC = () => {
 
@@ -16,7 +18,7 @@ export const Cart: React.FC = () => {
   const totalPrice = useSelector(state => state.cart.totalPrice);
   
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(cartSlice.actions.updateState());
@@ -51,8 +53,24 @@ export const Cart: React.FC = () => {
   const checkoutButtonAction = () => {
     if (quantity === 0) { return }
     // console.log()
-    dispatch(checkoutAction(cartItems));
+    // dispatch(checkoutAction(cartItems));
     // navigate('/placeOrder');
+    const purchasingItems = cartItems.filter((item) => item.isChecked)
+                              .map((item) => { return {
+                                productId: item.product.id, quantity: item.quantity, price: (item.quantity * item.product.price.valueOf())
+                              }})
+    dispatch(cartSlice.actions.checkoutFetchStart())
+    axios.post(`${apiURL}/order`, { orderItems: purchasingItems, userId: '630c1191e9ff85c27667201f' })
+          .then((res) => {
+            const { data } = res;
+            const orderId = data.orderId;
+            navigate(`/order/${orderId}`);
+          })
+          .catch((error) => {
+            if (error instanceof Error) {
+              dispatch(cartSlice.actions.checkoutFetchError(error.message))
+            }
+          })
   }
 
   return (

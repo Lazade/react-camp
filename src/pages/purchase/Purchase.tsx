@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "../../redux/hooks";
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Header, Footer } from "../../components";
 import { Card, Form, Button, Row, Col } from "react-bootstrap";
 import { purchaseSlice, getOrder } from "../../redux/purchase";
@@ -13,8 +13,8 @@ export const Purchase: React.FC = () => {
   const hasSubmit = useSelector((state => state.purchase.hasSubmit));
   const currentOrder = useSelector((state => state.purchase.currentOrder))
   
-  const location = useLocation();
   const dispatch = useDispatch();
+  const params = useParams()
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -23,10 +23,11 @@ export const Purchase: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    
-    // dispatch(getOrder(currentOrderId))
-    console.log(location);
-  }, [location])
+    const orderId = params.orderId;
+    if (orderId) {
+      dispatch(getOrder(orderId));
+    }
+  }, [params])
 
   return (
     <>
@@ -48,7 +49,7 @@ export const Purchase: React.FC = () => {
                       currentOrder &&
                       currentOrder.orderItems.map((item) => {
                         return (
-                          <div className={styles.purchasingItem}>
+                          <div key={item._id} className={styles.purchasingItem}>
                             <div className={styles.purchasingItemWrapper}>
                               {/* image */}
                               <div className={styles.itemImage}>

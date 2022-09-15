@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductData } from "../store/";
 import axios from "axios";
 import { apiURL } from "../../config";
-import { redirect } from "react-router-dom";
 
 export interface CartItem {
   // productId: string,
@@ -109,21 +108,15 @@ export const cartSlice = createSlice({
         }
       })
     },
-  },
-  extraReducers: {
-    [checkoutAction.pending.type]: (state) => {
+    checkoutFetchStart: (state) => {
       state.continueActionLoading = true;
       state.error = null;
     },
-    [checkoutAction.rejected.type]: (state, action: PayloadAction<string>) => {
+    checkoutFetchError: (state, action: PayloadAction<string>) => {
       state.continueActionLoading = false;
       state.error = action.payload;
-    },
-    [checkoutAction.fulfilled.type]: (state, action) => {
-      state.continueActionLoading = false
-      const { orderId } = action.payload;
-      console.log(orderId);
-      redirect(`placeOrder/${orderId}`);
     }
+  },
+  extraReducers: {
   }
 })
