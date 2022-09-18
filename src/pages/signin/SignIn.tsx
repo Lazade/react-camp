@@ -3,13 +3,32 @@ import axios from "axios";
 import { Header, Footer } from "../../components";
 import styles from "./SignIn.module.scss";
 import { Button } from "../../components/button/button";
+import { signin } from "../../redux/auth/slice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "../../redux/hooks";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../redux/store";
 
 export const SignIn: React.FC = () => {
+  const { loading, token, error } = useSelector((s) => s.user);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token !== null) {
+      navigate("/");
+    }
+  }, [token]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
+      dispatch(signin({ email, password }));
       const { data } = await axios.post(`http://localhost:8000/api/signin`, {
         email,
         password,
