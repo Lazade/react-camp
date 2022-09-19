@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductData } from "../store/";
+import { persistConfig } from '../store';
+import { getStoredState } from 'redux-persist';
 
 export interface CartItem {
   // productId: string,
@@ -13,14 +15,33 @@ interface CartState {
   isAllChecked: boolean,
   totalPrice: number,
   quantity: number,
+  loading: boolean,
+  error: string | null,
+  continueActionLoading: boolean,
 }
 
 const initialState: CartState = {
   cartItems: [],
   isAllChecked: false,
   totalPrice: 0,
-  quantity: 0
+  quantity: 0,
+  loading: true,
+  error: null,
+  continueActionLoading: false
 }
+
+export const addToCart = createAsyncThunk(
+  'Cart/addToCart',
+  async (item: CartItem, thunkAPI) => {
+    const value = await getStoredState(persistConfig);
+    if (value) {
+      return {
+        currentCartState: value['cart'] as CartState,
+        newCartItem: item
+      }
+    }
+  }
+)
 
 export const cartSlice = createSlice({
   name: 'Cart',
@@ -30,13 +51,14 @@ export const cartSlice = createSlice({
       const cartItems = state.cartItems;
       const allQuantity = cartItems.length;
       const checkedCartItems = cartItems.filter((item) => { return item.isChecked })
-      // const quantity = checkedCartItems.length
       state.totalPrice = checkedCartItems.reduce((previous, current) => previous + (current.quantity * current.product.price.valueOf()) , 0);
       state.quantity = checkedCartItems.reduce((pre, cur) => pre + cur.quantity, 0);
       state.isAllChecked = allQuantity === checkedCartItems.length
     },
     handlerAddToCart: (state, action: PayloadAction<CartItem>) => {
-      state.cartItems.push(action.payload)
+      // how to update state, 
+      // how to sync the state across different tabs
+      state.cartItems.push(action.payload);
     },
     handleSelectAllButtonAction: (state, action: PayloadAction<boolean>) => {
       state.cartItems.forEach((item) => {
@@ -88,6 +110,40 @@ export const cartSlice = createSlice({
           }
         }
       })
+    },
+    handleRemoveButtonAction: (state, action: PayloadAction<string>) => {
+      const id = action.payload;
+      const index = state.cartItems.findIndex((item) => item.product.id === id);
+      if (index !== -1) {
+        state.cartItems.splice(index, 1)
+      }
+    },
+    handleRemoveAllButtonAction: (state) => {
+      state.cartItems = [];
+      state.quantity = 0;
+      state.totalPrice = 0;
+      state.isAllChecked = false;
+    },
+    checkoutFetchStart: (state) => {
+      state.continueActionLoading = true;
+      state.error = null;
+    },
+    checkoutFetchError: (state, action: PayloadAction<string>) => {
+      state.continueActionLoading = false;
+      state.error = action.payload;
+    }
+  },
+  extraReducers: {
+    [addToCart.pending.type]: (state) => {
+
+    },
+    [addToCart.rejected.type]: (state) => {
+
+    },
+    [addToCart.fulfilled.type]: (state, action: PayloadAction<{ currentCartState: CartState, newCartItem: CartItem }>) => {
+      const { currentCartState, newCartItem } = action.payload;
+      currentCartState.cartItems.push(newCartItem);
+      state.cartItems = currentCartState.cartItems;
     }
   }
 })

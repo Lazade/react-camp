@@ -6,6 +6,9 @@ import styles from './Cart.module.scss';
 import demo from '../../assets/images/demo-5.jpg';
 import { useSelector, useDispatch } from "../../redux/hooks";
 import { cartSlice } from "../../redux/cart";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { apiURL } from "../../config";
 
 export const Cart: React.FC = () => {
 
@@ -13,12 +16,13 @@ export const Cart: React.FC = () => {
   const isAllChecked = useSelector(state => state.cart.isAllChecked);
   const quantity = useSelector(state => state.cart.quantity);
   const totalPrice = useSelector(state => state.cart.totalPrice);
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(cartSlice.actions.updateState());
   }, []);
-
-  const dispatch = useDispatch();
 
   const selectAllButtonAction = () => {
     dispatch(cartSlice.actions.handleSelectAllButtonAction(!isAllChecked))
@@ -46,9 +50,33 @@ export const Cart: React.FC = () => {
     dispatch(cartSlice.actions.updateState());
   }
 
-  const continueButtonAction = () => {
+  const removeButtonAction = (id: string) => {
+    dispatch(cartSlice.actions.handleRemoveButtonAction(id));
+    dispatch(cartSlice.actions.updateState());
+  }
+
+  const checkoutButtonAction = () => {
     if (quantity === 0) { return }
-    console.log()
+    const purchasingItems = cartItems.filter((item) => item.isChecked)
+                              .map((item) => { return {
+                                productId: item.product.id, quantity: item.quantity, price: (item.quantity * item.product.price.valueOf())
+                              }})
+    dispatch(cartSlice.actions.checkoutFetchStart())
+    axios.post(`${apiURL}/order`, { orderItems: purchasingItems, userId: '630c1191e9ff85c27667201f' })
+      .then((res) => {
+        const { data } = res;
+        const orderId = data.orderId;
+        navigate(`/order/${orderId}`);
+      })
+      .catch((error) => {
+        if (error instanceof Error) {
+          dispatch(cartSlice.actions.checkoutFetchError(error.message))
+        }
+      })
+  }
+
+  const removeAllButtonAction = () => {
+    dispatch(cartSlice.actions.handleRemoveAllButtonAction());
   }
 
   return (
@@ -74,7 +102,7 @@ export const Cart: React.FC = () => {
                   <Card.Body>
                     <div className={styles.cartsContentBody}>
                       {
-                        (cartItems.length > 0) &&
+                        (cartItems.length > 0) ?
                         cartItems.map((item) => {
                           return (
                             <div className={styles.cartItem} key={item.product.id}>
@@ -112,7 +140,11 @@ export const Cart: React.FC = () => {
                                     </div>
                                     {/* remove */}
                                     <div className={styles.removePart}>
-                                      <button>Remove</button>
+                                      <button
+                                        onClick={() => removeButtonAction(item.product.id)}
+                                      >
+                                        Remove
+                                      </button>
                                     </div>
                                   </div>
                                 </div>
@@ -123,7 +155,8 @@ export const Cart: React.FC = () => {
                               </div>
                             </div>
                           )
-                        })
+                        }): 
+                        <div>None</div>
                       }
                     </div>
                   </Card.Body>
@@ -157,7 +190,18 @@ export const Cart: React.FC = () => {
                     </div>
                   </Card.Body>
                   <Card.Footer>
-                    <button className={styles.checkButton}>Continue</button>
+                    <button 
+                      className={(quantity > 0) ? styles.checkButton : styles.checkButton + ' ' + styles.disabled}
+                      onClick={(checkoutButtonAction)}
+                    >
+                      Continue
+                    </button>
+                    <button
+                      className={styles.removeAllButton}
+                      onClick={removeAllButtonAction}
+                    >
+                      Remove All
+                    </button>
                   </Card.Footer>
                 </Card>
               </div>
