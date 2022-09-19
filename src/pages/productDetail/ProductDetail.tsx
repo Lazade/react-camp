@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "../../redux/hooks";
 import { useParams, Link } from "react-router-dom";
 import { productSlice, getProduct } from "../../redux/product";
-import { cartSlice, CartItem } from "../../redux/cart";
+import { cartSlice, CartItem, addToCart } from "../../redux/cart";
 import { Header, Footer } from "../../components";
 import styles from './ProductDetail.module.scss';
 import PD1 from '../../assets/images/PD1.jpg';
@@ -46,7 +46,8 @@ export const ProductDetail: React.FC = () => {
         quantity,
         isChecked: false,
       }
-      dispatch(cartSlice.actions.handlerAddToCart(newCartItem))
+      // dispatch(cartSlice.actions.handlerAddToCart(newCartItem))
+      dispatch(addToCart(newCartItem));
     }
   }
 

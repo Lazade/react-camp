@@ -268,4 +268,14 @@
       color: #ff6868;
     }
   }
+  .removeAllButton {
+    background-color: unset;
+    border: none;
+    text-decoration: underline;
+    font-size: 14px;
+    line-height: 16px;
+    color: #999;
+    margin: 10px auto 0 auto;
+    display: block;
+  }
 }

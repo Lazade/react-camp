@@ -1,7 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { apiURL } from "../../config";
-import { checkoutAction } from '../cart'
 
 interface OrderData {
   _id: string,

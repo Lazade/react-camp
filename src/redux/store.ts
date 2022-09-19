@@ -3,14 +3,23 @@ import { storeSlice } from "./store/";
 import { purchaseSlice } from "./purchase";
 import { productSlice } from './product';
 import { cartSlice } from './cart';
-import { persistReducer, persistStore } from 'redux-persist'
+import { 
+  persistReducer, 
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER
+} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
  
 interface CommonState {
   hasScrollUp: boolean
 }
 
-const persistConfig = {
+export const persistConfig = {
   key: 'root',
   storage,
   whitelist: ["cart"]
@@ -43,9 +52,18 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
   reducer: persistedReducer,
   devTools: true,
+  middleware(getDefaultMiddleware) {
+    return getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      }
+    })
+  },
 });
 
-const persistor = persistStore(store);
+const persistor = persistStore(store, null, () => {
+  console.log("????")
+});
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

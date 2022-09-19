@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductData } from "../store/";
-import axios from "axios";
-import { apiURL } from "../../config";
+import { persistConfig } from '../store';
+import { getStoredState } from 'redux-persist';
 
 export interface CartItem {
   // productId: string,
@@ -30,16 +30,17 @@ const initialState: CartState = {
   continueActionLoading: false
 }
 
-export const checkoutAction = createAsyncThunk(
-  'cart/checkoutAction',
-  async (cartItems: CartItem[], thunkAPI) => {
-    const purchasingItems = cartItems.filter((item) => item.isChecked)
-                                      .map((item) => { return {
-                                        productId: item.product.id, quantity: item.quantity, price: (item.quantity * item.product.price.valueOf())
-                                      }})
-    const { data } = await axios.post(`${apiURL}/order`, { orderItems: purchasingItems, userId: '630c1191e9ff85c27667201f' });
-    return data;
-  } 
+export const addToCart = createAsyncThunk(
+  'Cart/addToCart',
+  async (item: CartItem, thunkAPI) => {
+    const value = await getStoredState(persistConfig);
+    if (value) {
+      return {
+        currentCartState: value['cart'] as CartState,
+        newCartItem: item
+      }
+    }
+  }
 )
 
 export const cartSlice = createSlice({
@@ -55,7 +56,9 @@ export const cartSlice = createSlice({
       state.isAllChecked = allQuantity === checkedCartItems.length
     },
     handlerAddToCart: (state, action: PayloadAction<CartItem>) => {
-      state.cartItems.push(action.payload)
+      // how to update state, 
+      // how to sync the state across different tabs
+      state.cartItems.push(action.payload);
     },
     handleSelectAllButtonAction: (state, action: PayloadAction<boolean>) => {
       state.cartItems.forEach((item) => {
@@ -108,6 +111,19 @@ export const cartSlice = createSlice({
         }
       })
     },
+    handleRemoveButtonAction: (state, action: PayloadAction<string>) => {
+      const id = action.payload;
+      const index = state.cartItems.findIndex((item) => item.product.id === id);
+      if (index !== -1) {
+        state.cartItems.splice(index, 1)
+      }
+    },
+    handleRemoveAllButtonAction: (state) => {
+      state.cartItems = [];
+      state.quantity = 0;
+      state.totalPrice = 0;
+      state.isAllChecked = false;
+    },
     checkoutFetchStart: (state) => {
       state.continueActionLoading = true;
       state.error = null;
@@ -118,5 +134,16 @@ export const cartSlice = createSlice({
     }
   },
   extraReducers: {
+    [addToCart.pending.type]: (state) => {
+
+    },
+    [addToCart.rejected.type]: (state) => {
+
+    },
+    [addToCart.fulfilled.type]: (state, action: PayloadAction<{ currentCartState: CartState, newCartItem: CartItem }>) => {
+      const { currentCartState, newCartItem } = action.payload;
+      currentCartState.cartItems.push(newCartItem);
+      state.cartItems = currentCartState.cartItems;
+    }
   }
 })
