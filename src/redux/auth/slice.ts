@@ -5,13 +5,19 @@ import { apiURL } from "../../config";
 export interface UserState {
   loading: boolean;
   error: null | string;
-  token: null | string;
+  accessToken: null | string;
+  refreshToken: null | string;
+  userName: null | string;
+  email: null | string;
 }
 
 const initialState: UserState = {
   loading: false,
   error: null,
-  token: null,
+  accessToken: null,
+  refreshToken: null,
+  userName: null,
+  email: null,
 };
 
 export const signin = createAsyncThunk(
@@ -27,7 +33,8 @@ export const signin = createAsyncThunk(
       email: params.email,
       password: params.password,
     });
-    return data.token;
+    console.log(data);
+    return data;
   }
 );
 
@@ -35,41 +42,27 @@ export const authSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    // fetchStart: (state) => {
-    //   state.loading = true;
-    // },
-    // fetchSuccess: (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   const { products, categories } = action.payload;
-    //   state.categoriesData = categories;
-    //   state.productsData = products;
-    // },
-    // fetchCategoryProductsSuccess: (state, action) => {
-    //   state.loading = false;
-    //   state.error = null;
-    //   state.productsData = action.payload;
-    // },
-    // fetchError: (state, action: PayloadAction<string | null>) => {
-    //   state.loading = false;
-    //   state.error = action.payload;
-    // },
-    // categoryActionHandler: (state, action) => {
-    //   if (action.payload === "") {
-    //     state.currentCategory = "";
-    //   } else {
-    //     state.currentCategory = action.payload;
-    //   }
-    // },
+    logOut: (state) => {
+      state.loading = false;
+      state.error = null;
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.userName = null;
+      state.email = null;
+    },
   },
   extraReducers: {
     [signin.pending.type]: (state) => {
       state.loading = true;
     },
     [signin.fulfilled.type]: (state, action) => {
+      console.log(action);
       state.loading = false;
       state.error = null;
-      state.token = action.payload;
+      state.accessToken = action.payload.tokens.access;
+      state.refreshToken = action.payload.tokens.refresh;
+      state.userName = action.payload.user.name;
+      state.email = action.payload.user.email;
     },
     [signin.rejected.type]: (state, action) => {
       state.loading = false;
