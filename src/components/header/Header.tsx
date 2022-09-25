@@ -3,23 +3,19 @@ import { useSelector, useDispatch } from "../../redux/hooks";
 import { commonSlice } from "../../redux/store";
 // import { cartSlice } from "../../redux/cart";
 import { authSlice } from "../../redux/auth/slice";
-import { Form } from 'react-bootstrap';
+import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { BsSearch, BsShopWindow, BsCart, BsArrowUp } from 'react-icons/bs';
-import { AppDispatch } from "../../redux/store";
-import styles from './Header.module.scss';
-import logo from '../../assets/images/logo-bw.png';
+import { BsSearch, BsShopWindow, BsCart, BsArrowUp } from "react-icons/bs";
+import styles from "./Header.module.scss";
+import logo from "../../assets/images/logo-bw.png";
 
 export const Header: React.FC = () => {
-  
   //Login starts
   const jwt = useSelector((state) => state.user.accessToken);
   const user = useSelector((state) => state.user);
   console.log(user);
-
-  const dispatch = useDispatch<AppDispatch>();
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -34,50 +30,46 @@ export const Header: React.FC = () => {
       setName(user.userName);
     }
   }, [jwt]);
-  
+
   //Login ends
 
-  const hasScrollUp = useSelector(state => state.common.hasScrollUp);
-  const cartItems = useSelector(state => state.cart.cartItems);
-  const dispatch = useDispatch();
+  const hasScrollUp = useSelector((state) => state.common.hasScrollUp);
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
       // dispatch(purchaseSlice.actions.updateIsScroll(window.scrollY > 100));
       dispatch(commonSlice.actions.updateHasScrollUp(window.scrollY > 100));
-    })
-  }, [])
+    });
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
-    })
-  }
+      behavior: "smooth",
+    });
+  };
 
   const scrollTopButton = () => {
     return (
-      <button 
-        className={styles.scrollTopButton}
-        onClick={scrollToTop}
-      >
+      <button className={styles.scrollTopButton} onClick={scrollToTop}>
         <BsArrowUp />
       </button>
-    )
-  }
+    );
+  };
 
   return (
     <>
       <div className={styles.header}>
         <div className={styles.headerWrapper}>
           {/* logo */}
-          <a href="/" className={styles.headerItem + ' ' + styles.logo}>
-              <img src={logo} alt="Logo" />
-              React Camp
+          <a href="/" className={styles.headerItem + " " + styles.logo}>
+            <img src={logo} alt="Logo" />
+            React Camp
           </a>
           {/* Search Bar */}
-          <span className={styles.headerItem + ' ' + styles.search}>
+          <span className={styles.headerItem + " " + styles.search}>
             <Form.Control placeholder="Search" />
             <button>
               <BsSearch />
@@ -95,25 +87,20 @@ export const Header: React.FC = () => {
             </span>
           )}
           {/* Cart */}
-          <span className={styles.headerItem + ' ' + styles.cart}>
+          <span className={styles.headerItem + " " + styles.cart}>
             <Link to="/store">
               <BsShopWindow />
             </Link>
             <Link className={styles.cartButton} to="/cart">
-              {
-                (cartItems.length > 0)&&
+              {cartItems.length > 0 && (
                 <span className={styles.quantitySpan}>{cartItems.length}</span>
-              }
+              )}
               <BsCart />
             </Link>
           </span>
         </div>
       </div>
-      {
-        hasScrollUp &&
-        scrollTopButton()
-      }
-      
+      {hasScrollUp && scrollTopButton()}
     </>
   );
 };
