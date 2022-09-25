@@ -1,40 +1,43 @@
 .productDetail {
-    width: 1230px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
+  width: 1230px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+.topInfo {
+  
 }
 
 .topLink {
-    display: block;
-    text-decoration: none;
-    background-color: cornflowerblue;
-    font-size: 13px;
-    color: white;
-    padding: 5px;
-    text-align: center;
-
-    &:hover {
-        color: white;
-        text-decoration: underline;
-    }
+  display: block;
+  text-decoration: none;
+  background-color: cornflowerblue;
+  font-size: 13px;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  &:hover {
+      color: white;
+      text-decoration: underline;
+  }
 }
 
 .pageNav {
-    height: 15px;
-    margin-left: -30px;
-    color: gray;
+  height: 15px;
+  margin-left: -30px;
+  color: gray;
 
-    li {
-        display: block;
-        float: left;
-        margin-right: 5px;
+  li {
+      display: block;
+      float: left;
+      margin-right: 5px;
 
-        a {
-            text-decoration: none;
-            color: gray;
-        }
-    }
+      a {
+          text-decoration: none;
+          color: gray;
+      }
+  }
 }
 
 .navWrapper {
@@ -93,100 +96,100 @@
 }
 
 .toReview {
-    height: 25px;
+  height: 25px;
 
-    a {
-        text-decoration: none;
+  a {
+      text-decoration: none;
 
-        .reviewIcons {
-            font-size: 18px;
-            margin-right: 2px;
-            color: gold;
-        }
+      .reviewIcons {
+          font-size: 18px;
+          margin-right: 2px;
+          color: gold;
+      }
 
-        .reviewOnly {
-            margin-left: 2px;
-            color: rgb(15, 15, 15);
-            font-size: 14px;
-        }
-    }
+      .reviewOnly {
+          margin-left: 2px;
+          color: rgb(15, 15, 15);
+          font-size: 14px;
+      }
+  }
 }
 
 .productPrice {
-    margin-top: 10px;
-    font-size: 18px;
+  margin-top: 10px;
+  font-size: 18px;
 
-    small {
-        font-size: 12px;
-    }
+  small {
+      font-size: 12px;
+  }
 }
 
 .productCartQty {
-    font-size: 12px;
-    font-weight: bold;
+  font-size: 12px;
+  font-weight: bold;
 
-    .selectBox {
-        margin: 5px 0 5px 0;
-        font-size: 18px;
-        width: 100px;
-        border: 2px solid grey;
-        border-radius: 4px;
+  .selectBox {
+      margin: 5px 0 5px 0;
+      font-size: 18px;
+      width: 100px;
+      border: 2px solid grey;
+      border-radius: 4px;
 
-        &:hover {
-            border: 2px solid black;
-        }
+      &:hover {
+          border: 2px solid black;
+      }
 
-        select {
-            border: none;
-            outline: none;
-            width: 100%;
-            padding-left: 5px;
-        }
-    }
+      select {
+          border: none;
+          outline: none;
+          width: 100%;
+          padding-left: 5px;
+      }
+  }
 }
 
 .addCart {
-    width: 250px;
-    height: 40px;
+  width: 250px;
+  height: 40px;
 
-    button {
-        width: 100%;
-        height: 100%;
-        background-color: cornflowerblue;
-        border-radius: 6px;
-        border: none;
+  button {
+      width: 100%;
+      height: 100%;
+      background-color: cornflowerblue;
+      border-radius: 6px;
+      border: none;
 
-        span {
-            font-size: 16px;
-            color: white;
-            font-weight: bold;
-        }
+      span {
+          font-size: 16px;
+          color: white;
+          font-weight: bold;
+      }
 
-        .cartIcon {
-            display: inline-block;
-            margin-right: 10px;
-            font-size: 20px;
-        }
-    }
+      .cartIcon {
+          display: inline-block;
+          margin-right: 10px;
+          font-size: 20px;
+      }
+  }
 }
 
 .shippingInfo {
-    height: 80px;
-    width: 250px;
-    margin-top: 20px;
-    border-top: 1px solid cornflowerblue;
-    border-bottom: 1px solid cornflowerblue;
-    display: flex;
-    align-items: center;
+  height: 80px;
+  width: 250px;
+  margin-top: 20px;
+  border-top: 1px solid cornflowerblue;
+  border-bottom: 1px solid cornflowerblue;
+  display: flex;
+  align-items: center;
 
-    p {
-        font-size: 10px;
-        margin-bottom: 0px;
+  p {
+      font-size: 10px;
+      margin-bottom: 0px;
 
-        a {
-            color: black;
-        }
-    }
+      a {
+          color: black;
+      }
+  }
 }
 
 .rightWrapper {
@@ -195,203 +198,212 @@
 }
 
 .mainFigure {
-    width: 750px;
-    margin-left: auto;
-    margin-right: auto;
+  width: 750px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .minorFigures {
-    width: 880px;
-    height: 100px;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    justify-content: space-around;
+  width: 880px;
+  height: 110px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  // justify-content: space-around;
+  overflow-x: scroll;
+  figure {
+    margin-right: 10px;
+    margin-bottom: 0;
+    cursor: pointer;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 }
 
 .infoBox {
-    width: 900px;
-    margin: 50px auto;
-    line-height: 20px;
+  width: 900px;
+  margin: 50px auto;
+  line-height: 20px;
 
-    h2 {
-        font-size: 28px;
-        font-weight: bold;
-    }
+  h2 {
+      font-size: 28px;
+      font-weight: bold;
+  }
 
-    .info1 {
-        font-size: 14px;
-        margin-top: 40px;
-        margin-bottom: 10px;
-    }
+  .info1 {
+      font-size: 14px;
+      margin-top: 40px;
+      margin-bottom: 10px;
+  }
 
-    .info2 {
-        font-size: 12px;
-    }
+  .info2 {
+      font-size: 12px;
+  }
 }
 
 .reviewBox {
-    width: 900px;
-    margin: 100px auto;
+  width: 900px;
+  margin: 100px auto;
 
-    .summaryBlock {
-        height: 200px;
+  .summaryBlock {
+      height: 200px;
 
-        .reviewDisplay {
-            text-align: center;
-            line-height: 120px;
+      .reviewDisplay {
+          text-align: center;
+          line-height: 120px;
 
-            i {
-                margin-right: 5px;
-                color: grey;
-                font-size: 42px;
-            }
+          i {
+              margin-right: 5px;
+              color: grey;
+              font-size: 42px;
+          }
 
-            .reviewIcons {
-                margin-right: 2px;
-                color: gold;
-            }
+          .reviewIcons {
+              margin-right: 2px;
+              color: gold;
+          }
 
-            .reviewOnly {
-                margin-left: 2px;
-                color: grey;
-                font-size: 14px;
-            }
-        }
+          .reviewOnly {
+              margin-left: 2px;
+              color: grey;
+              font-size: 14px;
+          }
+      }
 
-        .writeButton {
-            float: right;
-            border: 1px solid rgb(214, 214, 214);
-            padding: 3px;
-            border-radius: 2px;
+      .writeButton {
+          float: right;
+          border: 1px solid rgb(214, 214, 214);
+          padding: 3px;
+          border-radius: 2px;
 
-            button {
-                border: none;
-                outline: none;
-                background-color: white;
+          button {
+              border: none;
+              outline: none;
+              background-color: white;
 
-                .writeIcon {
-                    font-size: 18px;
-                }
+              .writeIcon {
+                  font-size: 18px;
+              }
 
-                i {
-                    font-size: 14px;
-                }
-            }
+              i {
+                  font-size: 14px;
+              }
+          }
 
-            &:hover {
-                border: 1px solid black;
-            }
-        }
-    }
+          &:hover {
+              border: 1px solid black;
+          }
+      }
+  }
 }
 
 .titleBlock,
 .specTitle {
-    height: 100px;
+  height: 100px;
 
-    h2 {
-        font-size: 28px;
-    }
+  h2 {
+      font-size: 28px;
+  }
 
-    p {
-        font-size: 20px;
-        font-weight: bold;
-    }
+  p {
+      font-size: 20px;
+      font-weight: bold;
+  }
 }
 
 .comentBlock {
-    position: relative;
+  position: relative;
 
-    .comentDate {
-        position: absolute;
-        right: 0;
-        top: 10px;
+  .comentDate {
+      position: absolute;
+      right: 0;
+      top: 10px;
 
-        span {
-            font-size: 12px;
-            color: rgb(158, 158, 158);
-        }
-    }
+      span {
+          font-size: 12px;
+          color: rgb(158, 158, 158);
+      }
+  }
 
-    .buyers {
-        height: 70px;
+  .buyers {
+      height: 70px;
 
-        .avatar {
-            float: left;
-            margin-right: 10px;
+      .avatar {
+          float: left;
+          margin-right: 10px;
 
-            img {
-                border-radius: 50%;
-            }
-        }
+          img {
+              border-radius: 50%;
+          }
+      }
 
-        .profile {
-            font-size: 12px;
+      .profile {
+          font-size: 12px;
 
-            :nth-child(2) {
-                color: rgb(158, 158, 158);
-                margin-left: 5px;
-            }
-        }
+          :nth-child(2) {
+              color: rgb(158, 158, 158);
+              margin-left: 5px;
+          }
+      }
 
-        .stars {
-            color: gold;
+      .stars {
+          color: gold;
 
-            span {
-                margin-right: 2px;
-            }
-        }
-    }
+          span {
+              margin-right: 2px;
+          }
+      }
+  }
 
-    .content {
-        margin-left: 70px;
+  .content {
+      margin-left: 70px;
 
-        p {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+      p {
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 5px;
+      }
 
-        span {
-            font-size: 14px;
-        }
-    }
+      span {
+          font-size: 14px;
+      }
+  }
 
-    .contentLike {
-        float: right;
-        font-size: 14px;
-        color: rgb(117, 117, 117);
-        margin-top: 15px;
-    }
+  .contentLike {
+      float: right;
+      font-size: 14px;
+      color: rgb(117, 117, 117);
+      margin-top: 15px;
+  }
 }
 
 .specBox {
-    width: 900px;
-    margin: auto;
+  width: 900px;
+  margin: auto;
 
-    .specDetail {
-        padding-left: 0;
-        font-size: 14px;
+  .specDetail {
+      padding-left: 0;
+      font-size: 14px;
 
-        li {
-            div {
-                display: inline-block;
-            }
+      li {
+          div {
+              display: inline-block;
+          }
 
-            p {
-                margin-bottom: 0px;
-            }
+          p {
+              margin-bottom: 0px;
+          }
 
-            .specName {
-                width: 50px;
-                margin-right: 250px;
-                font-weight: bold;
-            }
+          .specName {
+              width: 50px;
+              margin-right: 250px;
+              font-weight: bold;
+          }
 
-        }
+      }
 
-    }
+  }
 }
 
 .snsLink {
@@ -399,11 +411,9 @@
     display: flex;
     text-align: center;
     justify-content: center;
-
     span {
         font-size: 26px;
         margin: auto 10px;
-
         a {
             color: darkgray;
         }
