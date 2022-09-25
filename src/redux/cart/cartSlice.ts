@@ -39,6 +39,8 @@ export const addToCart = createAsyncThunk(
         currentCartState: value['cart'] as CartState,
         newCartItem: item
       }
+    } else {
+      return null;
     }
   }
 )
@@ -54,11 +56,6 @@ export const cartSlice = createSlice({
       state.totalPrice = checkedCartItems.reduce((previous, current) => previous + (current.quantity * current.product.price.valueOf()) , 0);
       state.quantity = checkedCartItems.reduce((pre, cur) => pre + cur.quantity, 0);
       state.isAllChecked = allQuantity === checkedCartItems.length
-    },
-    handlerAddToCart: (state, action: PayloadAction<CartItem>) => {
-      // how to update state, 
-      // how to sync the state across different tabs
-      state.cartItems.push(action.payload);
     },
     handleSelectAllButtonAction: (state, action: PayloadAction<boolean>) => {
       state.cartItems.forEach((item) => {
@@ -140,10 +137,12 @@ export const cartSlice = createSlice({
     [addToCart.rejected.type]: (state) => {
 
     },
-    [addToCart.fulfilled.type]: (state, action: PayloadAction<{ currentCartState: CartState, newCartItem: CartItem }>) => {
-      const { currentCartState, newCartItem } = action.payload;
-      currentCartState.cartItems.push(newCartItem);
-      state.cartItems = currentCartState.cartItems;
+    [addToCart.fulfilled.type]: (state, action: PayloadAction<{ currentCartState: CartState, newCartItem: CartItem } | null>) => {
+      if (action.payload) {
+        const { currentCartState, newCartItem } = action.payload;
+        currentCartState.cartItems.push(newCartItem);
+        state.cartItems = currentCartState.cartItems;
+      }
     }
   }
 })

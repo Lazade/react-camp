@@ -3,6 +3,7 @@ import { storeSlice } from "./store/";
 import { purchaseSlice } from "./purchase";
 import { productSlice } from './product';
 import { cartSlice } from './cart';
+import { cartMiddleware } from "./middlewares";
 import { 
   persistReducer, 
   persistStore,
@@ -57,7 +58,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    })
+    }).concat(cartMiddleware);
   },
 });
 
