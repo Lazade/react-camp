@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Header, Footer } from "../../components";
 import styles from "./SignUp.module.scss";
@@ -8,6 +9,7 @@ export const SignUp: React.FC = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,15 +20,16 @@ export const SignUp: React.FC = () => {
         password,
       });
 
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPassword("");
-      }
-    } catch (err) {}
+      console.log(data);
+
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+      navigate("/signin");
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>

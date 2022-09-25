@@ -1,5 +1,6 @@
 import { createSlice, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { storeSlice } from "./store/";
+import { authSlice } from "./auth/slice";
 import { purchaseSlice } from "./purchase";
 import { productSlice } from './product';
 import { cartSlice } from './cart';
@@ -22,7 +23,7 @@ interface CommonState {
 export const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ["cart"]
+  whitelist: ["cart", "user"]
 }
 
 const initialState: CommonState = {
@@ -45,6 +46,7 @@ const rootReducer = combineReducers({
   purchase: purchaseSlice.reducer,
   product: productSlice.reducer,
   cart: cartSlice.reducer,
+  user: authSlice.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -64,6 +66,8 @@ const store = configureStore({
 const persistor = persistStore(store, null, () => {
   console.log("????")
 });
+
+const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

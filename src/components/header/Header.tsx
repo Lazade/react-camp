@@ -1,14 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "../../redux/hooks";
 import { commonSlice } from "../../redux/store";
 // import { cartSlice } from "../../redux/cart";
+import { authSlice } from "../../redux/auth/slice";
 import { Form } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { BsSearch, BsShopWindow, BsCart, BsArrowUp } from 'react-icons/bs';
+import { AppDispatch } from "../../redux/store";
 import styles from './Header.module.scss';
 import logo from '../../assets/images/logo-bw.png';
 
 export const Header: React.FC = () => {
+  
+  //Login starts
+  const jwt = useSelector((state) => state.user.accessToken);
+  const user = useSelector((state) => state.user);
+  console.log(user);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+
+  const onLogout = () => {
+    dispatch(authSlice.actions.logOut());
+    navigate("/");
+  };
+
+  useEffect(() => {
+    if (jwt && user.userName) {
+      setName(user.userName);
+    }
+  }, [jwt]);
+  
+  //Login ends
 
   const hasScrollUp = useSelector(state => state.common.hasScrollUp);
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -56,11 +83,17 @@ export const Header: React.FC = () => {
               <BsSearch />
             </button>
           </span>
-          {/* Sign up & Sign in */}
-          <span className={styles.headerItem + ' ' + styles.user}>
-            <Link to={"/signup"}>Sign Up</Link>
-            <Link to={"/signin"}>Sign In</Link>
-          </span>
+          {jwt ? (
+            <span className={styles.headerItem + " " + styles.loggedIn}>
+              <span>Welcome {name}</span>
+              <button onClick={onLogout}>Sign Out</button>
+            </span>
+          ) : (
+            <span className={styles.headerItem + " " + styles.user}>
+              <Link to={"/signup"}>Sign Up</Link>
+              <Link to={"/signin"}>Sign In</Link>
+            </span>
+          )}
           {/* Cart */}
           <span className={styles.headerItem + ' ' + styles.cart}>
             <Link to="/store">
@@ -83,4 +116,4 @@ export const Header: React.FC = () => {
       
     </>
   );
-}
+};
