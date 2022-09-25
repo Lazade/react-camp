@@ -1,0 +1,172 @@
+.purchasePageWrapper {
+  width: 1150px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px 20px;
+}
+
+.purchasePage {
+  min-height: 100vh;
+  .innerContent {
+    padding-right: 290px;
+    position: relative;
+    overflow: hidden;
+    &::after {
+      content: '';
+      clear: both;
+    }
+  }
+  .leftPart {
+    width: 100%;
+    float: left;
+    padding-right: 3.5%;
+  }
+
+  .leftPartContainer {
+    .section {
+      margin-bottom: 30px;
+    }
+  }
+
+  .purchasingItemsInner {
+    padding: 5px;
+    .purchasingItem {
+      border-bottom: 1px solid #bdbdbd;
+      padding-bottom: 30px;
+      margin-bottom: 30px;
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+      .purchasingItemWrapper {
+        display: flex;
+        flex-direction: row;
+      }
+      .itemImage {
+        width: 100px;
+        height: 100px;
+        margin-right: 60px;
+        border: 1px solid #cdcdcd;
+        border-radius: 10px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          max-width: 95%;
+          max-height: 95%;
+        }
+      }
+      .itemInfo {
+        width: calc(100% - 100px - 60px);
+        .nameInfo {
+          font-size: 18px;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 8px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .quanityInfo {
+          font-size: 16px;
+          color: #555;
+          margin-bottom: 8px;
+          .quanitySpan {
+            font-weight: 600px;
+          }
+        }
+        .priceInfo {
+          font-size: 16px;
+          color: #555;
+          .priceSpan {
+            font-weight: 600px;
+            color: #B12704;
+          }
+          .taxSpan {
+            font-size: 14px;
+            // color: #;
+          }
+        }
+      }
+    }
+  }
+  
+  .rightPart {
+    float: right;
+    width: 290px;
+    margin-right: -290px;
+    position: relative;
+  }
+
+  .rightPartFixed {
+    position: fixed;
+    top: 14px;
+    width: inherit;
+  }
+
+  .purchaseSummeryContents {
+    .title {
+      margin-bottom: 10px;
+    }
+    .orderTable {
+      width: 100%;
+      tr {
+        td {
+
+        }
+      }
+      .orderSummeryNormalRow {
+        td {
+          font-size: 13px;
+          list-style-type: 16px;
+        }
+        .lineBox {
+          margin: 10px 0;
+          width: 100%;
+          height: 1px;
+          background-color: #222;
+        }
+      }
+      .orderSummeryTotalRow {
+        color: #B12704;
+        font-weight: 600;
+        td {
+          font-size: 18px;
+          line-height: 24px;
+        }
+      }
+    }
+  }
+
+  .purchaseSummeryOperations {
+    margin-bottom: -10px;
+    button {
+      display: block;
+      border: 1px solid #bdbdbd;
+      font-size: 16px;
+      padding: 4px 10px;
+      width: 100%;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .payButton {
+      background-color: #FFD814;
+      color: #222;
+      &:hover {
+        background: #222;
+        color: #FFD814;
+      }
+    }
+    .cancelButton {
+      background-color: #ff6868;
+      color: #222;
+      &:hover {
+        background-color: #222;
+        color: #ff6868;
+      }
+    }
+  }
+}

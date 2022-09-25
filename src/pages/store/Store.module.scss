@@ -1,15 +1,15 @@
 .store {
-  .store-wrapper {
+  .storeWrapper {
     width: 1170px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     flex: 0 0 auto;
   }
-  .store-leftside {
+  .storeLeftside {
     width: 290px;
   }
-  .leftside-part {
+  .leftsidePart {
     margin-top: 40px;
     &::after {
       content: '';
@@ -19,9 +19,9 @@
       display: block;
       border-bottom: 1px solid #666;
     }
-    .title-part {
+    .titlePart {
       margin-bottom: 16px;
-      .title-part-title {
+      .titlePartTitle {
         margin-bottom: 0px;
         font-size: 16px;
         color: #333;
@@ -29,7 +29,7 @@
       }
     }
   }
-  .category-part {
+  .categoryPart {
     ul {
       padding-left: 12px;
       padding-right: 20px;
@@ -38,7 +38,7 @@
         cursor: pointer;
         transition: background-color 300ms linear;
         height: 28px;
-        &.li-focused, &:hover {
+        &.liFocused, &:hover {
           background-color: #999;
           span {
             color: #fff;
@@ -66,44 +66,68 @@
       }
     }
   }
-  .stock-part {
+  .stockPart {
     ul {
       padding-left: 12px;
       margin-bottom: 0;
       margin-top: -5px;
-      li {
+      .showStockItem {
         display: flex;
         height: 30px;
         margin-top: 5px;
         align-items: center;
-        .span-mark {
-          display: inline-flex;
-          width: 24px;
-          height: 24px;
-          box-sizing: border-box;
-          border: 1px solid #999;
-          background-color: #fff;
-          margin-right: 6px;
-          cursor: pointer;
+      }
+      .showStockItemChecked {
+        .spanMark {
+          &::before {
+            content: '';
+            width: 18px;
+            height: 18px;
+            border-radius: 2px;
+            background-color: #ff8686;
+          }
         }
-        .span-option {
-          font-size: 15px;
-          color: #333;
-          cursor: pointer;
-        }
+      }
+      .spanMark {
+        display: inline-flex;
+        width: 24px;
+        height: 24px;
+        box-sizing: border-box;
+        border: 1px solid #999;
+        background-color: #fff;
+        margin-right: 6px;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+      }
+      .spanOption {
+        font-size: 15px;
+        color: #333;
+        cursor: pointer;
       }
     }
   }
-  .price-range-part {
+  .priceRangePart {
     ul {
       padding-left: 12px;
       margin-bottom: 0px;
       margin-top: -5px;
-      li {
+      .priceRangeItem {
         display: flex;
         align-items: center;
         margin-top: 5px;
-        .span-mark {
+        &.priceRangeItemChecked {
+          .priceRangeItemSpanMark {
+            &::before {
+              content: '';
+              width: 18px;
+              height: 18px;
+              background-color: #ff8686;
+              border-radius: 2px;
+            }
+          }
+        }
+        .priceRangeItemSpanMark {
           display: inline-flex;
           width: 24px;
           height: 24px;
@@ -112,8 +136,10 @@
           background-color: #fff;
           margin-right: 6px;
           cursor: pointer;
+          justify-content: center;
+          align-items: center;
         }
-        .div-option {
+        .priceRangeItemDivOption {
           font-size: 15px;
           color: #333;
           cursor: pointer;
@@ -125,24 +151,31 @@
     }
   }
 
-  .store-rightside {
+  .storeRightside {
     margin-top: 60px;
     margin-left: 60px;
     width: 100%;
-    .product-list-wrapper {
+    .productListWrapper {
       display: flex;
       flex: 0 0 auto;
       flex-wrap: wrap;
-      justify-content: space-between;
     }
-    .product-item {
+    .productItem {
       display: flex;
       flex-direction: column;
-      width: 260px;
-      align-items: center;
+      width: 30%;
+      // align-items: center;
       margin-bottom: 40px;
       position: relative;
-      .product-item-link {
+      padding-left: 10px;
+      padding-right: 10px;
+      margin-right: 5%;
+      box-sizing: border-box;
+      border: 1px solid #dedede;
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+      .productItemLink {
         position: absolute;
         width: 100%;
         height: 100%;
@@ -155,7 +188,7 @@
       .newArrivalSpan {
         position: absolute;
         top: 0px;
-        left: 0px;
+        left: 10px;
         display: block;
         padding: 2px 5px;
         font-size: 13px;
@@ -166,7 +199,7 @@
       .discountSpan {
         position: absolute;
         top: 0px;
-        left: 0px;
+        left: 10px;
         display: block;
         padding: 2px 5px;
         font-size: 13px;
@@ -177,7 +210,7 @@
       .soldOutSpan {
         position: absolute;
         top: 0px;
-        left: 0px;
+        left: 10px;
         display: block;
         padding: 2px 5px;
         font-size: 13px;
@@ -185,7 +218,7 @@
         background-color: lightgray;
         z-index: 2;
       }
-      .product-item-thumbnail {
+      .productItemThumbnail {
         height: 168px;
         img {
           height: 100%;
@@ -193,25 +226,26 @@
           object-fit: contain;
         }
       }
-      .product-item-info {
+      .productItemInfo {
         margin-top: 10px;
-        .product-item-info-title {
+        .productItemInfoTitle {
           p {
             font-size: 16px;
             font-weight: 600;
             color: #444;
-            margin-bottom: 0;
+            margin-bottom: 20px;
             line-height: 20px;
           }
         }
-        .product-item-info-price {
+        .productItemInfoPrice {
           margin-bottom: 10px;
           p {
             font-size: 16px;
-            color: #333;
+            font-weight: 600;
+            color: #ff3232;
             margin-bottom: 0;
             span {
-              font-size: 15px;
+              font-size: 13px;
               color: #666;
             }
           }
@@ -221,7 +255,7 @@
   }
 }
 
-.loading-view {
+.loadingView {
   position: fixed;
   width: 100%;
   height: 100%;

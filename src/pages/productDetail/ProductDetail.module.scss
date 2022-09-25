@@ -1,0 +1,421 @@
+.productDetail {
+  width: 1230px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+.topInfo {
+  
+}
+
+.topLink {
+  display: block;
+  text-decoration: none;
+  background-color: cornflowerblue;
+  font-size: 13px;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  &:hover {
+      color: white;
+      text-decoration: underline;
+  }
+}
+
+.pageNav {
+  height: 15px;
+  margin-left: -30px;
+  color: gray;
+
+  li {
+      display: block;
+      float: left;
+      margin-right: 5px;
+
+      a {
+          text-decoration: none;
+          color: gray;
+      }
+  }
+}
+
+.navWrapper {
+    width: 100px;
+    position: fixed;
+    top: 20%;
+    right: 210px;
+
+    img{
+        width: 50px;
+        display: block;
+        margin: 10px auto;
+    }
+
+    a {
+        text-decoration: none;
+        color: gray;
+        display: block;
+        height: 30px;
+        width: 90px;
+        margin: 20px auto;
+        border: 1px solid rgb(172, 172, 172);
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: bolder;
+        line-height: 30px;
+        text-align: center;
+        &:hover{
+            color: #fff;
+            background-color: cornflowerblue;
+            border: 1px solid cornflowerblue;
+        }
+    }
+}
+
+.leftWrapper {
+    height: 370px;
+    width: 270px;
+    position: fixed;
+    margin-top: 15px;
+    padding: 0 10px;
+
+    .productName {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .productID {
+        width: 50px;
+        font-size: 12px;
+        border: 1px solid grey;
+        border-radius: 25px;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+}
+
+.toReview {
+  height: 25px;
+
+  a {
+      text-decoration: none;
+
+      .reviewIcons {
+          font-size: 18px;
+          margin-right: 2px;
+          color: gold;
+      }
+
+      .reviewOnly {
+          margin-left: 2px;
+          color: rgb(15, 15, 15);
+          font-size: 14px;
+      }
+  }
+}
+
+.productPrice {
+  margin-top: 10px;
+  font-size: 18px;
+
+  small {
+      font-size: 12px;
+  }
+}
+
+.productCartQty {
+  font-size: 12px;
+  font-weight: bold;
+
+  .selectBox {
+      margin: 5px 0 5px 0;
+      font-size: 18px;
+      width: 100px;
+      border: 2px solid grey;
+      border-radius: 4px;
+
+      &:hover {
+          border: 2px solid black;
+      }
+
+      select {
+          border: none;
+          outline: none;
+          width: 100%;
+          padding-left: 5px;
+      }
+  }
+}
+
+.addCart {
+  width: 250px;
+  height: 40px;
+
+  button {
+      width: 100%;
+      height: 100%;
+      background-color: cornflowerblue;
+      border-radius: 6px;
+      border: none;
+
+      span {
+          font-size: 16px;
+          color: white;
+          font-weight: bold;
+      }
+
+      .cartIcon {
+          display: inline-block;
+          margin-right: 10px;
+          font-size: 20px;
+      }
+  }
+}
+
+.shippingInfo {
+  height: 80px;
+  width: 250px;
+  margin-top: 20px;
+  border-top: 1px solid cornflowerblue;
+  border-bottom: 1px solid cornflowerblue;
+  display: flex;
+  align-items: center;
+
+  p {
+      font-size: 10px;
+      margin-bottom: 0px;
+
+      a {
+          color: black;
+      }
+  }
+}
+
+.rightWrapper {
+    width: 940px;
+    margin-left: 290px;
+}
+
+.mainFigure {
+  width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.minorFigures {
+  width: 880px;
+  height: 110px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  // justify-content: space-around;
+  overflow-x: scroll;
+  figure {
+    margin-right: 10px;
+    margin-bottom: 0;
+    cursor: pointer;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.infoBox {
+  width: 900px;
+  margin: 50px auto;
+  line-height: 20px;
+
+  h2 {
+      font-size: 28px;
+      font-weight: bold;
+  }
+
+  .info1 {
+      font-size: 14px;
+      margin-top: 40px;
+      margin-bottom: 10px;
+  }
+
+  .info2 {
+      font-size: 12px;
+  }
+}
+
+.reviewBox {
+  width: 900px;
+  margin: 100px auto;
+
+  .summaryBlock {
+      height: 200px;
+
+      .reviewDisplay {
+          text-align: center;
+          line-height: 120px;
+
+          i {
+              margin-right: 5px;
+              color: grey;
+              font-size: 42px;
+          }
+
+          .reviewIcons {
+              margin-right: 2px;
+              color: gold;
+          }
+
+          .reviewOnly {
+              margin-left: 2px;
+              color: grey;
+              font-size: 14px;
+          }
+      }
+
+      .writeButton {
+          float: right;
+          border: 1px solid rgb(214, 214, 214);
+          padding: 3px;
+          border-radius: 2px;
+
+          button {
+              border: none;
+              outline: none;
+              background-color: white;
+
+              .writeIcon {
+                  font-size: 18px;
+              }
+
+              i {
+                  font-size: 14px;
+              }
+          }
+
+          &:hover {
+              border: 1px solid black;
+          }
+      }
+  }
+}
+
+.titleBlock,
+.specTitle {
+  height: 100px;
+
+  h2 {
+      font-size: 28px;
+  }
+
+  p {
+      font-size: 20px;
+      font-weight: bold;
+  }
+}
+
+.comentBlock {
+  position: relative;
+
+  .comentDate {
+      position: absolute;
+      right: 0;
+      top: 10px;
+
+      span {
+          font-size: 12px;
+          color: rgb(158, 158, 158);
+      }
+  }
+
+  .buyers {
+      height: 70px;
+
+      .avatar {
+          float: left;
+          margin-right: 10px;
+
+          img {
+              border-radius: 50%;
+          }
+      }
+
+      .profile {
+          font-size: 12px;
+
+          :nth-child(2) {
+              color: rgb(158, 158, 158);
+              margin-left: 5px;
+          }
+      }
+
+      .stars {
+          color: gold;
+
+          span {
+              margin-right: 2px;
+          }
+      }
+  }
+
+  .content {
+      margin-left: 70px;
+
+      p {
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 5px;
+      }
+
+      span {
+          font-size: 14px;
+      }
+  }
+
+  .contentLike {
+      float: right;
+      font-size: 14px;
+      color: rgb(117, 117, 117);
+      margin-top: 15px;
+  }
+}
+
+.specBox {
+  width: 900px;
+  margin: auto;
+
+  .specDetail {
+      padding-left: 0;
+      font-size: 14px;
+
+      li {
+          div {
+              display: inline-block;
+          }
+
+          p {
+              margin-bottom: 0px;
+          }
+
+          .specName {
+              width: 50px;
+              margin-right: 250px;
+              font-weight: bold;
+          }
+
+      }
+
+  }
+}
+
+.snsLink {
+    margin: 100px auto 50px auto;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    span {
+        font-size: 26px;
+        margin: auto 10px;
+        a {
+            color: darkgray;
+        }
+    }
+}
