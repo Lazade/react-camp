@@ -29,6 +29,8 @@ function App() {
         <Route path="signup" element={<SignUp />}></Route>
         {/* localhost:port/signin/ */}
         <Route path="signin" element={<SignIn />}></Route>
+        {/* localhost:port/user/orders */}
+        <Route path='user/orders'></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -2,8 +2,9 @@ import { createSlice, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { storeSlice } from "./store/";
 import { authSlice } from "./auth/slice";
 import { purchaseSlice } from "./purchase";
-import { productSlice } from "./product";
-import { cartSlice } from "./cart";
+import { productSlice } from './product';
+import { cartSlice } from './cart';
+import { cartMiddleware } from "./middlewares";
 import {
   persistReducer,
   persistStore,
@@ -57,9 +58,9 @@ const store = configureStore({
   middleware(getDefaultMiddleware) {
     return getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    });
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      }
+    }).concat(cartMiddleware);
   },
 });
 
