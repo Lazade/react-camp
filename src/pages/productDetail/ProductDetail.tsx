@@ -14,6 +14,7 @@ import PD6 from '../../assets/images/PD6.jpg';
 import PD7 from '../../assets/images/PD7.jpg';
 import PD8 from '../../assets/images/PD8.jpg';
 import CA1 from '../../assets/images/CA1.jpg';
+import NV from '../../assets/images/logo.png';
 import { AiOutlineShoppingCart, AiOutlineLike } from 'react-icons/ai'
 import { BsPencilSquare, BsChevronRight, BsStarHalf, BsStarFill, BsFacebook, BsYoutube, BsInstagram, BsTwitter } from 'react-icons/bs';
 
@@ -81,6 +82,13 @@ export const ProductDetail: React.FC = () => {
             </li>
             <li>{productData?.name}</li>
           </ul>
+        </div>
+        {/* Navigation Wrapper */}
+        <div className={styles.navWrapper}>
+          <img width={40} src={NV} />
+          <a href="#revLink">Review</a>
+          <a href="#specLink">Spec</a>
+          <a href="#">Top</a>
         </div>
         {/* Cart wrapper */}
         <div className={styles.leftWrapper}>
@@ -166,7 +174,7 @@ export const ProductDetail: React.FC = () => {
             <p className={styles.info1}>アウトドアの定番、シェラカップ。コップやお皿、計量カップの代わりとして使うことができる万能アイテムです。重ねられるので、収納や携帯にも便利。指に掛かりやすいハンドルのため、持ちやすいのがうれしいポイントです。チタン製のため驚くほど軽量です。</p>
             <p className={styles.info2}>強度があり光沢が美しいステンレス製のシェラカップも用意しています。</p>
           </div>
-          <div className={styles.reviewBox}>
+          <div className={styles.reviewBox} id="revLink">
             <div className={styles.titleBlock}>
               <h2>Review</h2>
               <p>チタンシェラカップのレビュー</p>
@@ -220,7 +228,7 @@ export const ProductDetail: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className={styles.specBox}>
+          <div className={styles.specBox} id="specLink">
             <div className={styles.specTitle}>
               <h2>Spec</h2>
               <p>チタンシェラカップの仕様</p>
@@ -288,27 +296,27 @@ export const ProductDetail: React.FC = () => {
           </div>
         </div>
         <div className={styles.snsLink}>
-            <span>
-              <a href="#">
-                <BsTwitter />
-              </a>
-            </span>
-            <span>
-              <a href="#">
-                <BsFacebook />
-              </a>
-            </span>
-            <span>
-              <a href="#">
-                <BsInstagram />
-              </a>
-            </span>
-            <span>
-              <a href="#">
-                <BsYoutube />
-              </a>
-            </span>
-          </div>
+          <span>
+            <a href="#">
+              <BsTwitter />
+            </a>
+          </span>
+          <span>
+            <a href="#">
+              <BsFacebook />
+            </a>
+          </span>
+          <span>
+            <a href="#">
+              <BsInstagram />
+            </a>
+          </span>
+          <span>
+            <a href="#">
+              <BsYoutube />
+            </a>
+          </span>
+        </div>
       </section>
       <Footer />
     </>

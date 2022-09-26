@@ -83,6 +83,14 @@
     }
   }
 
+  &.loggedIn span {
+    margin: 10px;
+  }
+  &.loggedIn button {
+    border: none;
+    background-color: transparent;
+  }
+
   &.cart {
     margin-left: 16px;
     a {    

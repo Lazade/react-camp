@@ -1,44 +1,45 @@
 import { createSlice, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { storeSlice } from "./store/";
+import { authSlice } from "./auth/slice";
 import { purchaseSlice } from "./purchase";
 import { productSlice } from './product';
 import { cartSlice } from './cart';
 import { cartMiddleware } from "./middlewares";
-import { 
-  persistReducer, 
+import {
+  persistReducer,
   persistStore,
   FLUSH,
   REHYDRATE,
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER
-} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
- 
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
 interface CommonState {
-  hasScrollUp: boolean
+  hasScrollUp: boolean;
 }
 
 export const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ["cart"]
-}
+  whitelist: ["cart", "user"],
+};
 
 const initialState: CommonState = {
-  hasScrollUp: false
-}
+  hasScrollUp: false,
+};
 
 export const commonSlice = createSlice({
-  name: 'Common',
+  name: "Common",
   initialState,
   reducers: {
     updateHasScrollUp: (state, action) => {
       state.hasScrollUp = action.payload;
-    }
-  }
-})
+    },
+  },
+});
 
 const rootReducer = combineReducers({
   common: commonSlice.reducer,
@@ -46,7 +47,8 @@ const rootReducer = combineReducers({
   purchase: purchaseSlice.reducer,
   product: productSlice.reducer,
   cart: cartSlice.reducer,
-})
+  user: authSlice.reducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -63,7 +65,7 @@ const store = configureStore({
 });
 
 const persistor = persistStore(store, null, () => {
-  console.log("????")
+  console.log("????");
 });
 
 export type AppDispatch = typeof store.dispatch;
