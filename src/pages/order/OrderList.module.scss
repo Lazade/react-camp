@@ -1,0 +1,189 @@
+.orderListPage {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.orderListPageWrapper {
+  width: 1150px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.orderListPageInner {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.orderItem {
+  border: 1px solid #999;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  .orderItemInfo {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #efefef;
+    border-bottom: 1px solid #bcbcbc;
+  }
+  .orderItemDetail {
+    padding: 16px 10px 20px;
+  }
+  .orderItemFooter {
+    padding: 10px;
+    background-color: #fefefe;
+    border-top: 1px solid #bcbcbc;
+  }
+}
+
+.orderItemInfoWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .orderItemInfoLeft {
+    display: inline-flex;
+    flex-direction: row;
+  }
+  .orderItemInfoRight {
+    .links {
+      display: inline-flex;
+      flex-direction: row;
+      .linkItem {
+        padding-left: 4px;
+        padding-right: 4px;
+        border-right: 1px solid #ccc;
+        font-size: 14px;
+        color: #666;
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
+  .orderItemInfoItem {
+    padding-left: 8px;
+    padding-right: 8px;
+    p.itemTitle {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 2px;
+    }
+    p.itemBody {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 0;
+      font-weight: 600;
+      &.statusPENDING {
+        color: rgb(189, 31, 31);
+      }
+      &.statusCOMPLETED {
+        color: rgb(29, 158, 115);
+      }
+      &.statusCANCELED {
+        color: rgb(78, 65, 65);
+      }
+    }
+  }
+}
+
+.orderItemDetail {
+  .productItem {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .productItemInner {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .productItemInfo {
+      display: inline-flex;
+      flex-direction: row;
+      .productItemInfoImage {
+        width: 180px;
+        height: 180px;
+        margin-right: 16px;
+        img {
+          max-width: 100%;
+          object-fit: contain;
+        }
+      }
+      .productItemInfoDetail {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        table {
+          width: 100%;
+          .productItemInfoDetailInfoRow {
+            td {
+              font-size: 16px;
+              &:first-child {
+                color: #333;
+              }
+              &:last-child {
+                color: #333;
+                font-weight: 600;
+              }
+            }
+          }
+        }
+      }
+    }
+    .productItemStatus {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      .statusInfo {
+        margin-bottom: 6px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.orderItemFooter {
+  .orderItemFooterInner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .hideOrderButton {
+    padding: 0;
+    border: none;
+    background-color: unset;
+    font-size: 14px;
+    color: #666;
+    text-decoration: underline;
+  }
+  .operationButtons {
+    display: inline-flex;
+    .continuePayment {
+      padding: 6px 8px;
+      border: 1px solid #FFF;
+      background-color: #FF6868;
+      border-radius: 10px;
+      color: #FFF;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+    .cancelButton {
+      padding: 6px 8px;
+      border: 1px solid #FFF;
+      border-radius: 10px;
+      background-color: rgb(238, 156, 5);
+      color: #fff;
+      font-size: 14px;
+    }
+  }
+}

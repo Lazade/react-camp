@@ -1,10 +1,11 @@
 import { createSlice, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { storeSlice } from "./store/";
-import { authSlice } from "./auth/slice";
+import { authSlice } from "./auth/";
 import { purchaseSlice } from "./purchase";
 import { productSlice } from './product';
 import { cartSlice } from './cart';
-import { cartMiddleware } from "./middlewares";
+import { orderSlice } from "./order";
+import { cartMiddleware, productMiddleware } from "./middlewares";
 import {
   persistReducer,
   persistStore,
@@ -19,6 +20,7 @@ import storage from "redux-persist/lib/storage";
 
 interface CommonState {
   hasScrollUp: boolean;
+  showHeaderDropDownMenu: boolean,
 }
 
 export const persistConfig = {
@@ -29,6 +31,7 @@ export const persistConfig = {
 
 const initialState: CommonState = {
   hasScrollUp: false,
+  showHeaderDropDownMenu: false
 };
 
 export const commonSlice = createSlice({
@@ -38,6 +41,9 @@ export const commonSlice = createSlice({
     updateHasScrollUp: (state, action) => {
       state.hasScrollUp = action.payload;
     },
+    toggleShowHeaderDropDownMenu: (state, action) => {
+      state.showHeaderDropDownMenu = action.payload
+    }
   },
 });
 
@@ -48,9 +54,12 @@ const rootReducer = combineReducers({
   product: productSlice.reducer,
   cart: cartSlice.reducer,
   user: authSlice.reducer,
+  order: orderSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const middlewares = [cartMiddleware, productMiddleware];
 
 const store = configureStore({
   reducer: persistedReducer,
@@ -60,12 +69,12 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    }).concat(cartMiddleware);
+    }).concat(middlewares);
   },
 });
 
 const persistor = persistStore(store, null, () => {
-  console.log("????");
+  // console.log("????");
 });
 
 export type AppDispatch = typeof store.dispatch;

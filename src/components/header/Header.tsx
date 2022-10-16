@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "../../redux/hooks";
 import { commonSlice } from "../../redux/store";
-// import { cartSlice } from "../../redux/cart";
 import { authSlice } from "../../redux/auth/slice";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +13,6 @@ export const Header: React.FC = () => {
   //Login starts
   const jwt = useSelector((state) => state.user.accessToken);
   const user = useSelector((state) => state.user);
-  console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,23 +23,29 @@ export const Header: React.FC = () => {
     navigate("/");
   };
 
+  const mouseEnterDropdownMenu = () => {
+    dispatch(commonSlice.actions.toggleShowHeaderDropDownMenu(true));
+  }
+
+  const mouseLeaveDropDownMenu = () => {
+    dispatch(commonSlice.actions.toggleShowHeaderDropDownMenu(false));
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      dispatch(commonSlice.actions.updateHasScrollUp(window.scrollY > 100));
+    });
+  }, []);
+
   useEffect(() => {
     if (jwt && user.userName) {
       setName(user.userName);
     }
   }, [jwt]);
 
-  //Login ends
-
   const hasScrollUp = useSelector((state) => state.common.hasScrollUp);
+  const showHeaderDropDownMenu = useSelector((state) => state.common.showHeaderDropDownMenu);
   const cartItems = useSelector((state) => state.cart.cartItems);
-
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      // dispatch(purchaseSlice.actions.updateIsScroll(window.scrollY > 100));
-      dispatch(commonSlice.actions.updateHasScrollUp(window.scrollY > 100));
-    });
-  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -76,9 +80,21 @@ export const Header: React.FC = () => {
             </button>
           </span>
           {jwt ? (
-            <span className={styles.headerItem + " " + styles.loggedIn}>
-              <span>Welcome {name}</span>
-              <button onClick={onLogout}>Sign Out</button>
+            <span 
+              className={styles.headerItem + " " + styles.loggedIn}
+              onMouseEnter={mouseEnterDropdownMenu}
+              onMouseLeave={mouseLeaveDropDownMenu}
+            >
+              Welcome {name}
+              {
+                showHeaderDropDownMenu&&
+                <div className={styles.dropdownMenu}>
+                  <ul>
+                    <li><Link className={styles.ordersButton + " " + styles.dropdownMenuItem} to={"/user/orders"}>Orders</Link></li>
+                    <li><button className={styles.signoutButton + " " + styles.dropdownMenuItem} onClick={onLogout}>Sign Out</button></li>
+                  </ul>
+                </div>
+              }
             </span>
           ) : (
             <span className={styles.headerItem + " " + styles.user}>

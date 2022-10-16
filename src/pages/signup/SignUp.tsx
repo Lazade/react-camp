@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Header, Footer } from "../../components";
 import styles from "./SignUp.module.scss";
+import { apiURL } from "../../config";
 
 export const SignUp: React.FC = () => {
   const [firstName, setFirstName] = useState("");
@@ -14,7 +15,7 @@ export const SignUp: React.FC = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`http://localhost:8000/api/signup`, {
+      const { data } = await axios.post(`${apiURL}/signup`, {
         name: `${firstName.trim()} ${lastName.trim()}`,
         email,
         password,

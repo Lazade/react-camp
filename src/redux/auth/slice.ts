@@ -21,7 +21,7 @@ const initialState: UserState = {
 };
 
 export const signin = createAsyncThunk(
-  "user/signin",
+  "User/signin",
   async (
     params: {
       email: string;
@@ -29,20 +29,24 @@ export const signin = createAsyncThunk(
     },
     thunkAPI
   ) => {
-    const { data } = await axios.post("http://localhost:8000/api/signin", {
+    const response = await axios.post(`${apiURL}/signin`, {
       email: params.email,
       password: params.password,
     });
-    console.log(data);
+    const { data, error } = response.data;
+    if (error !== null) {
+      return thunkAPI.rejectWithValue(error);
+    }
     return data;
   }
 );
 
 export const authSlice = createSlice({
-  name: "user",
+  name: "User",
   initialState,
   reducers: {
     logOut: (state) => {
+      // backend ?
       state.loading = false;
       state.error = null;
       state.accessToken = null;
@@ -54,9 +58,10 @@ export const authSlice = createSlice({
   extraReducers: {
     [signin.pending.type]: (state) => {
       state.loading = true;
+      state.error = null;
     },
     [signin.fulfilled.type]: (state, action) => {
-      console.log(action);
+      // console.log(action);
       state.loading = false;
       state.error = null;
       state.accessToken = action.payload.tokens.access;

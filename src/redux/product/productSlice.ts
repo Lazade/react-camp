@@ -24,9 +24,13 @@ const initialState : ProductState = {
 }
 
 export const getProduct = createAsyncThunk(
-  'product/getProduct',
+  'Product/getProduct',
   async (id: string, thunkAPI) => {
-    const { data } = await axios.get(`${apiURL}/product/${id}`)
+    const response = await axios.get(`${apiURL}/product/${id}`);
+    const { data, error } = response.data;
+    if (error !== null) {
+      return thunkAPI.rejectWithValue(error);
+    }
     return data
   }
 )

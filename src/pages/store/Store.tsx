@@ -5,8 +5,7 @@ import {
   getProductsAndCategoriesData, 
   getProductsOfCurrentCategory 
 } from "../../redux/store/index";
-import { Spinner  } from 'react-bootstrap';
-import { Footer, Header } from "../../components";
+import { Footer, Header, LoadingView, ErrorAlert } from "../../components";
 import { BsArrowRightShort } from 'react-icons/bs';
 import demo5 from '../../assets/images/demo-5.jpg';
 import styles from './Store.module.scss';
@@ -59,9 +58,11 @@ export const Store: React.FC = () => {
       <Header />
       {
         loading &&
-        <div className={styles.loadingView}>
-          <Spinner animation="border" />
-        </div>
+        <LoadingView />
+      }
+      {
+        error &&
+        <ErrorAlert error={error} />
       }
       <section className={styles.store}>
         <div className={styles.storeWrapper}>
@@ -156,9 +157,9 @@ export const Store: React.FC = () => {
           <div className={styles.storeRightside}>
             <div className={styles.productListWrapper}>
               {
-                filtedProductsData &&
+                filtedProductsData.length > 0 ?
                 filtedProductsData.map((productData) => {
-                  let span;
+                  let span: any;
                   if (!productData.isInStock) {
                     span = <span className={styles.soldOutSpan}>Sold Out</span>
                   } else if (productData.isNewArrival) {
@@ -187,7 +188,8 @@ export const Store: React.FC = () => {
                     <a className={styles.productItemLink} href={`/product/${productData.id}`} target="_blank" rel="noreferrer"></a>
                   </div>
                   )
-                })
+                }) :
+                <div>Empty</div>
               }
             </div>
           </div>

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "../../redux/hooks";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { productSlice, getProduct } from "../../redux/product";
-import { cartSlice, CartItem, addToCart } from "../../redux/cart";
-import { Header, Footer } from "../../components";
+import { CartItem, addToCart } from "../../redux/cart";
+import { Header, Footer, LoadingView, ErrorAlert } from "../../components";
 import styles from './ProductDetail.module.scss';
 import PD1 from '../../assets/images/PD1.jpg';
 import PD2 from '../../assets/images/PD2.jpg';
@@ -22,19 +22,24 @@ import { BsPencilSquare, BsChevronRight, BsStarHalf, BsStarFill, BsFacebook, BsY
 export const ProductDetail: React.FC = () => {
 
   const { id } = useParams();
-  // const loading = useSelector(state => state.product.loading);
-  // const error = useSelector(state => state.product.error);
+
+  const loading = useSelector(state => state.product.loading);
+  const error = useSelector(state => state.product.error);
   const productData = useSelector(state => state.product.productData);
   const categoryData = useSelector(state => state.product.categoryData);
   const currentImage = useSelector(state => state.product.currentImage);
   const displayImages = useSelector(state => state.product.displayImages);
   const selectedQuantity = useSelector(state => state.product.selectedQuantity);
+  const jwt = useSelector(state => state.user.accessToken);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id !== undefined) {
       dispatch(getProduct(id))
+    } else {
+      navigate("/")
     }
     dispatch(productSlice.actions.setDisplayImages([PD1, PD2, PD3, PD4, PD5, PD6, PD7, PD8]))
   }, [])
@@ -48,7 +53,7 @@ export const ProductDetail: React.FC = () => {
         isChecked: false,
       }
       // dispatch(cartSlice.actions.handlerAddToCart(newCartItem))
-      dispatch(addToCart(newCartItem));
+      dispatch(addToCart({ jwt, newCartItem}));
     }
   }
 
@@ -64,8 +69,16 @@ export const ProductDetail: React.FC = () => {
   return (
     <>
       <Header />
+      {
+        loading&&
+        <LoadingView />
+      }
+      {
+        error&&
+        <ErrorAlert error={error} />
+      }
       <section className={styles.productDetail}>
-        <div className={styles.topInfo}>
+        <div className="topInfo">
           <a className={styles.topLink} href="#">25,000円(税込)以上お買い上げでノベルティプレゼント!</a>
           <ul className={styles.pageNav}>
             <li>

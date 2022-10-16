@@ -1,28 +1,31 @@
 import React, { useEffect } from "react";
-import { Header, Footer } from "../../components";
+import { Header, Footer, LoadingView, ErrorAlert } from "../../components";
 import { Card } from "react-bootstrap";
 import { GrFormSubtract, GrFormAdd } from 'react-icons/gr'
 import styles from './Cart.module.scss';
 import demo from '../../assets/images/demo-5.jpg';
 import { useSelector, useDispatch } from "../../redux/hooks";
-import { cartSlice } from "../../redux/cart";
+import { cartSlice, getUserCart, getCartFromLocal, subtractAction } from "../../redux/cart";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { apiURL } from "../../config";
 
 export const Cart: React.FC = () => {
 
-  const cartItems = useSelector(state => state.cart.cartItems);
-  const isAllChecked = useSelector(state => state.cart.isAllChecked);
-  const quantity = useSelector(state => state.cart.quantity);
-  const totalPrice = useSelector(state => state.cart.totalPrice);
+  const jwt = useSelector(state => state.user.accessToken);
+
+  const { cartItems, isAllChecked, quantity, totalPrice, loading, error } = useSelector(state => state.cart);
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(cartSlice.actions.updateState());
-  }, []);
+    if (jwt === null) {
+      dispatch(getCartFromLocal());
+    } else {
+      dispatch(getUserCart(jwt));
+    }
+  }, [jwt]);
 
   const selectAllButtonAction = () => {
     dispatch(cartSlice.actions.handleSelectAllButtonAction(!isAllChecked))
@@ -35,8 +38,7 @@ export const Cart: React.FC = () => {
   }
 
   const subtractButtonAction = (id: string) => {
-    dispatch(cartSlice.actions.handleSubtractButtonAction(id));
-    dispatch(cartSlice.actions.updateState());
+    dispatch(subtractAction({id, jwt}));
   }
 
   const plusButtonAction = (id: string) => {
@@ -64,8 +66,9 @@ export const Cart: React.FC = () => {
     dispatch(cartSlice.actions.checkoutFetchStart())
     axios.post(`${apiURL}/order`, { orderItems: purchasingItems, userId: '630c1191e9ff85c27667201f' })
       .then((res) => {
-        const { data } = res;
-        const orderId = data.orderId;
+        console.log(res);
+        const { data, error } = res.data;
+        const orderId = data;
         navigate(`/order/${orderId}`);
       })
       .catch((error) => {
@@ -82,9 +85,16 @@ export const Cart: React.FC = () => {
   return (
     <>
       <Header />
-      {/* Todo */}
+      {
+        loading&&
+        <LoadingView />
+      }
       <div className={styles.cart}>
         <div className={styles.cartWrapper}>
+          {
+            (error !== null)&&
+            <ErrorAlert error={error} />
+          }
           <div className={styles.innerContent}>
             <div className={styles.leftPart}>
               <div className={styles.cartsContent}>

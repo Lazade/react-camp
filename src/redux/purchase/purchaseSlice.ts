@@ -1,16 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { apiURL } from "../../config";
+import { OrderData } from '../order';
 
-interface OrderData {
-  _id: string,
-  userId: string,
-  createdAt: string,
-  updatedAt: string,
-  costPrice: number,
-  totalQuantity: number,
-  orderItems: OrderItem[],
-  status: string,
+interface PurchasingOrderData extends OrderData {
   purchaseInfo: PurchaseInfo | null
 }
 
@@ -25,20 +18,11 @@ interface PrePurchaseInfo extends PurchaseInfo {
   cvv: string
 }
 
-interface OrderItem {
-  cost: number,
-  quantity: number,
-  _id: string,
-  price: number,
-  thumbnail: string,
-  name: string
-}
-
 interface PurchaseState {
   isScroll: boolean,
   hasSubmit: boolean,
   loading: boolean,
-  currentOrder: null | OrderData,
+  currentOrder: null | PurchasingOrderData,
   prePurchaseInfo: PrePurchaseInfo,
   formError: string | null
 }
@@ -65,6 +49,17 @@ export const payOrder = createAsyncThunk(
   async (reqData: { orderId: string, prePurchaseInfo: PrePurchaseInfo }, thunkAPI) => {
     const { orderId, prePurchaseInfo } = reqData;
     const response = await axios.patch(`${apiURL}/order/${orderId}/pay`, prePurchaseInfo);
+    const { data, error } = response.data;
+    if (error === null) {
+      thunkAPI.dispatch(getOrder(orderId));
+    }
+  }
+)
+
+export const cancelOrder = createAsyncThunk(
+  'purchase/cancelOrder',
+  async (orderId: string, thunkAPI) => {
+    const response = await axios.patch(`${apiURL}/order/${orderId}/cancel`);
     const { data, error } = response.data;
     if (error === null) {
       thunkAPI.dispatch(getOrder(orderId));

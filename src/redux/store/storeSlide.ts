@@ -7,8 +7,8 @@ export interface StoreState {
   error: null | string,
   currentCategory: string,
   categoriesData: null | CategoryData[],
-  productsData: null | ProductData[],
-  filtedProductsData: null | ProductData[],
+  productsData: ProductData[],
+  filtedProductsData: ProductData[],
   countOfLessThan5000: number,
   countOfFrom5000To10000: number,
   countOfFrom10001To20000: number,
@@ -41,8 +41,8 @@ const initialState : StoreState = {
   error: null,
   currentCategory: "",
   categoriesData: null,
-  productsData: null,
-  filtedProductsData: null,
+  productsData: [],
+  filtedProductsData: [],
   countOfLessThan5000: 0,
   countOfFrom5000To10000: 0,
   countOfFrom10001To20000: 0,
@@ -55,7 +55,11 @@ const initialState : StoreState = {
 export const getProductsAndCategoriesData = createAsyncThunk(
   'store/getProductsAndCategoriesData',
   async (_, thunkAPI) => {
-    const { data } = await axios.get(`${apiURL}/products-and-categories`);
+    const response = await axios.get(`${apiURL}/products-and-categories`);
+    const { data, error } = response.data;
+    if (error !== null) {
+
+    } 
     return data;
   }
 )

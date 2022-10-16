@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { Header, Footer } from "../../components";
+import { Header, Footer, LoadingView, ErrorAlert } from "../../components";
 import styles from "./SignIn.module.scss";
 import { Button } from "../../components/button/button";
-import { signin } from "../../redux/auth/slice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "../../redux/hooks";
+import { signin } from "../../redux/auth/";
+import { useSelector, useDispatch } from "../../redux/hooks";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppDispatch } from "../../redux/store";
 import demo1 from "../../assets/images/demo-1.jpg";
 
 export const SignIn: React.FC = () => {
   const { loading, accessToken, error } = useSelector((s) => s.user);
 
-  const dispatch = useDispatch<AppDispatch>();
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,12 +24,15 @@ export const SignIn: React.FC = () => {
   const [password, setPassword] = useState("");
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     dispatch(signin({ email, password }));
   };
   return (
     <>
       <Header />
+      {
+        loading&&
+        <LoadingView />
+      }
       <div className="grid-container">
         <form
           onSubmit={handleSubmit}
@@ -67,12 +66,15 @@ export const SignIn: React.FC = () => {
             </label>
           </div>
           <Button text="Sign in" />
+          {
+            (error !== null)&&
+            <ErrorAlert error={error} />
+          }
         </form>
         <div className={styles.imgEdgeCover}>
           <img className={styles.bgImage} src={demo1} alt="bg_image" />
         </div>
       </div>
-
       <Footer />
     </>
   );
